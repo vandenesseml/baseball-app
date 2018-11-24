@@ -1,5 +1,5 @@
 runtime: python
 env: flex
-entrypoint: gunicorn -b localhost:8080 -w 4 blog:app
+entrypoint: gunicorn -b localhost:8080 -w 4 baseball:app
 runtime_config:
     python_version: 3
