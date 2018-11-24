@@ -1,5 +1,5 @@
 {% extends 'bootstrap/base.html' %} {% block title %} {% if title %}FanHub - {{ title }}{% else %}Welcome to FanHub{% endif
-%} {% endblock %} {% block navbar %}{% block scripts %} {{ super() }} {{ moment.include_moment() }} {% endblock %}
+%} {% endblock %} {% block navbar %}
 <link rel=" stylesheet " href="{{ url_for( 'static', filename='css/style.css' ) }} ">
 
 <nav class="navbar navbar-inverse">
