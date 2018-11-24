@@ -15,7 +15,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
-    image_path = db.Column(db.String(5000))
+    image_path = db.Column(db.String(1000))
     first_name = db.Column(db.String(120))
     last_name = db.Column(db.String(120))
     full_name = db.Column(db.String(240))
@@ -38,24 +38,26 @@ class User(UserMixin, db.Model):
 
 
 class Athlete(db.Model):
-    first_name = db.Column(db.String(120), primary_key=True)
-    last_name = db.Column(db.String(120), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(120))
+    last_name = db.Column(db.String(120))
     # in format mm/dd/yyyy
-    DOB = db.Column(db.String(11), primary_key=True)
+    DOB = db.Column(db.String(11))
     enrollment_date = db.Column(db.String(11))
     scholarship_amount = db.Column(db.Integer)
     country_of_origin = db.Column(db.String(120))
     university_name = db.Column(db.String(120))
+    image_path = db.Column(db.String(1000))
 
     def get_age(self):
-        dob = datetime.datetime.strptime(self.DOB, '%m/%d/%Y')
-        now = datetime.datetime.now()
+        dob = datetime.strptime(self.DOB, '%m/%d/%Y')
+        now = datetime.now()
         return math.floor((now - dob).days / 365)
 
     def get_years_played(self):
         enrollment = datetime.datetime.strptime(self.enrollment_date,
                                                 '%m/%d/%Y')
-        now = datetime.datetime.now()
+        now = datetime.now()
         return math.floor((now - dob).days / 365)
 
 

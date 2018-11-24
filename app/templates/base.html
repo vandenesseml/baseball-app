@@ -1,5 +1,5 @@
 {% extends 'bootstrap/base.html' %} {% block title %} {% if title %}FanHub - {{ title }}{% else %}Welcome to FanHub{% endif
-%} {% endblock %} {% block navbar %}
+%} {% endblock %} {% block navbar %}{% block scripts %} {{ super() }} {{ moment.include_moment() }} {% endblock %}
 <link rel=" stylesheet " href="{{ url_for( 'static', filename='css/style.css' ) }} ">
 
 <nav class="navbar navbar-inverse">
@@ -30,7 +30,9 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" style="padding-top:0px !important;padding-bottom:0px !important;margin-top:8px;" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false">
-                                <img src={{current_user.image_path}} class="img-circle  " style="height: 35px; width: 35px;"> {{current_user.full_name}}
+                                {% if current_user.image_path %}
+                                <img src={{current_user.image_path}} class="img-circle  " style="height: 35px; width: 35px;"> {{current_user.full_name}} {% else %}
+                                <img src=" {{ current_user.avatar(35, current_user.first_name, current_user.last_name) }} " class="img-circle userTemplateProfileImage "> {{current_user.full_name}}{% endif %}
                             </a>
                             <ul class="dropdown-menu " style="margin-top:8px; ">
                                 <li>

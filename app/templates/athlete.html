@@ -1,0 +1,15 @@
+ {% extends "base.html" %} {% block app_content %}
+<table class="table body">
+    <tr>
+        <td width="256px">
+            {% if athlete.image_path %}
+            <img src={{athlete.image_path}} class="img-circle  " style="height: 256px; width: 256px;"> {% else %}
+            <img src=" {{ athlete.avatar(256, athlete.first_name, athlete.last_name) }} " class="img-circle athleteTemplateProfileImage "> {% endif %}
+        </td>
+        <td>
+            <h1>{{athlete.full_name}}</h1>
+
+        </td>
+    </tr>
+</table>
+{% endblock %}
