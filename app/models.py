@@ -23,7 +23,6 @@ class User(UserMixin, db.Model):
     def edit_profile_image(self, image_path):
         self.image_path = image_path
 
-
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -34,7 +33,30 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def avatar(self, size, first_name, last_name):
-        return 'https://ui-avatars.com/api/?size={}&name={}+{}'.format(size, first_name, last_name)
+        return 'https://ui-avatars.com/api/?size={}&name={}+{}'.format(
+            size, first_name, last_name)
+
+
+class Athlete(db.Model):
+    first_name = db.Column(db.String(120), primary_key=True)
+    last_name = db.Column(db.String(120), primary_key=True)
+    # in format mm/dd/yyyy
+    DOB = db.Column(db.String(11), primary_key=True)
+    enrollment_date = db.Column(db.String(11))
+    scholarship_amount = db.Column(db.Integer)
+    country_of_origin = db.Column(db.String(120))
+    university_name = db.Column(db.String(120))
+
+    def get_age(self):
+        dob = datetime.datetime.strptime(self.DOB, '%m/%d/%Y')
+        now = datetime.datetime.now()
+        return math.floor((now - dob).days / 365)
+
+    def get_years_played(self):
+        enrollment = datetime.datetime.strptime(self.enrollment_date,
+                                                '%m/%d/%Y')
+        now = datetime.datetime.now()
+        return math.floor((now - dob).days / 365)
 
 
 @login.user_loader
