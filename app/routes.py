@@ -14,6 +14,7 @@ from config import Config
 
 
 @app.route('/index', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
     return render_template("index.html")

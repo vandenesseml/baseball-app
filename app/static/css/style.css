@@ -1,37 +1,10 @@
-.commentButton {
-    background:none!important; 
-    color:inherit; 
-    border:none;
-    padding:0!important; 
-    font: inherit; 
-    cursor: pointer;
-}
-.likeButton {
-    width:40ppx;
-    background:url(/static/images/hearted.png) no-repeat center left;; 
-    color:inherit; 
-    border:none;
-    padding:0!important; 
-    font: inherit; 
-    cursor: pointer;
-    background-size: 21px;
-}
-.unlikeButton {
-    width:40ppx;
-    background:url(/static/images/heart3.png) no-repeat center left;; 
-    color:inherit; 
-    border:none;
-    padding:0!important; 
-    font: inherit; 
-    cursor: pointer;
-    background-size: 21px;
 
-}
 .container {
 
     display: flex !important;
     flex-flow: column !important;
     height: auto !important;
+    width: 90% !important;
     
 }
 .titleInput {
@@ -58,31 +31,11 @@
     margin-right:5px !important;
     float:right !important;
 }
-.commentSubmit{
-    margin-top:5px;
-    float:right !important;
-}
-.comments {
-    margin-left: 40px;
-    display: inline-block;
-}
-.replies {
-    display: inline-block;
-}
+
 .replySubmit{
     margin-top:5px;
     margin-bottom: 5px;
     float:right !important;
-}
-.addReply{
-    width: 100%;
-    display:none; 
-    float:right
-}
-.addComment{
-    width: 100%;
-    display:none; 
-    float:right
 }
 .table{
     margin-bottom: 0;
