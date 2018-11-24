@@ -1,0 +1,22 @@
+ {% extends "base.html" %} {% block app_content %}
+<table class="table body">
+    <tr>
+        <td width="256px">
+            {% if user.image_path %}
+            <img src={{user.image_path}} class="img-circle  " style="height: 256px; width: 256px;"> {% else %}
+            <img src=" {{ user.avatar(256, user.first_name, user.last_name) }} " class="img-circle userTemplateProfileImage "> {% endif %}
+        </td>
+        <td>
+            <h1>@{{ user.username }}</h1>
+            <p>{{user.full_name}}</p>
+            {% if user.about_me %}
+            <p>{{ user.about_me }}</p>{% endif %} {% if user.last_seen %}
+            <p>Active: {{ moment(user.last_seen).fromNow() }}{% endif %} {% if user == current_user %}
+                <p>
+                    <a class="removeUnderline" href="{{ url_for( 'edit_profile') }} ">Edit your profile</a>
+                </p>
+                {% endif %}
+        </td>
+    </tr>
+</table>
+{% endblock %}
