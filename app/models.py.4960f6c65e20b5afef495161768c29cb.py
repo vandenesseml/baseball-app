@@ -115,7 +115,6 @@ class conference(db.Model):
     conference_name = db.Column(db.String(120))
     universities = db.relationship('University', backref='conference', lazy='dynamic')
     image_path = db.Column(db.String(1000))
-
     def __repr__(self):
         return '<Conference {}>'.format(self.conference_name())
 
