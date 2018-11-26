@@ -46,7 +46,7 @@ class Athlete(db.Model):
     enrollment_date = db.Column(db.String(11))
     scholarship_amount = db.Column(db.Integer)
     country_of_origin = db.Column(db.String(120))
-    university_name = db.Column(db.String(120))
+    university_id = db.Column(db.Integer, db.ForeignKey('university.id'))
     image_path = db.Column(db.String(1000))
 
     def get_age(self):
@@ -75,12 +75,12 @@ class University(db.Model):
     field_name = db.Column(db.String(120))
     athletes = db.relationship('Athlete', backref='university', lazy='dynamic')
     staff = db.relationship('Staff', backref='university', lazy='dynamic')
-    conference = db.relationship(
-        'Conference', backref='university', lazy='dynamic')
+    conference_id = db.Column(db.Integer, db.ForeignKey('conference.id'))
     image_path = db.Column(db.String(1000))
 
     def __repr__(self):
-        return '<University {}>'.format(self.university_name)
+        return '<University {}>'.format(self.name)
+
 
 class Staff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -90,8 +90,7 @@ class Staff(db.Model):
     DOB = db.Column(db.String(11))
     start_date = db.Column(db.String(11))
     job_title = db.Column(db.String(120))
-    university = db.relationship(
-        'University', backref='staff', lazy='dynamic')
+    university_id = db.Column(db.Integer, db.ForeignKey('university.id'))
     image_path = db.Column(db.String(1000))
 
     def get_age(self):
@@ -110,14 +109,16 @@ class Staff(db.Model):
     def __repr__(self):
         return '<Staff {}>'.format(self.get_full_name())
 
-class conference(db.Model):
+
+class Conference(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
-    universities = db.relationship('University', backref='conference', lazy='dynamic')
+    universities = db.relationship(
+        'University', backref='conference', lazy='dynamic')
     image_path = db.Column(db.String(1000))
 
     def __repr__(self):
-        return '<Conference {}>'.format(self.conference_name())
+        return '<Conference {}>'.format(self.name())
 
 
 @login.user_loader

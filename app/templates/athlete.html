@@ -10,7 +10,9 @@
             <h1>{{athlete.get_full_name()}}</h1>
             <h4>Age: {{athlete.get_age()}}</h4>
             <h4>Active: {{athlete.get_years_played()}}</h4>
-            <h4>University:  <a class="removeUnderline" href="{{ url_for( 'university', id=athlete.university.id) }} ">{{athlete.university_name}}</a></h4>
+            <h4>University:
+                <a class="removeUnderline" href="{{ url_for( 'university', id=athlete.university_id) }} ">{{athlete.university.name}}</a>
+            </h4>
             <h4>Country of origin: {{athlete.country_of_origin}}</h4>
 
         </td>

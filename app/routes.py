@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 
 from app import app, db
 from app.forms import EditProfileForm, LoginForm, RegistrationForm
-from app.models import Athlete, User
+from app.models import Athlete, Conference, Staff, University, User
 from config import Config
 
 
