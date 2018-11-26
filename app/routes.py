@@ -68,7 +68,7 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
+    return render_template('user.html', user=user, title=user.full_name)
 
 
 @app.before_request
@@ -104,29 +104,44 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template(
-        'edit_profile.html', title='Edit Profile', form=form)
+        'edit_profile.html', form=form, title=current_user.full_name)
 
 
 @app.route('/athlete/<id>')
 @login_required
 def athlete(id):
     athlete = Athlete.query.filter_by(id=id).first_or_404()
-    return render_template('athlete.html', athlete=athlete)
+    return render_template(
+        'athlete.html', athlete=athlete, title=athlete.get_full_name())
+
 
 @app.route('/university/<id>')
 @login_required
 def university(id):
     university = University.query.filter_by(id=id).first_or_404()
-    return render_template('university.html', university=university)
+    return render_template(
+        'university.html', university=university, title=university.name)
+
 
 @app.route('/staff/<id>')
 @login_required
 def staff(id):
     staff = Staff.query.filter_by(id=id).first_or_404()
-    return render_template('staff.html', staff=staff)
+    return render_template(
+        'staff.html', staff=staff, title=staff.get_full_name())
+
 
 @app.route('/conference/<id>')
 @login_required
 def conference(id):
     conference = Conference.query.filter_by(id=id).first_or_404()
-    return render_template('conference.html', conference=conference)
+    return render_template(
+        'conference.html', conference=conference, title=conference.name)
+
+
+@app.route('/conferences')
+@login_required
+def conferences():
+    conferences = Conference.query.all()
+    return render_template(
+        'conferences.html', conferences=conferences, title='Conferences')

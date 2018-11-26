@@ -126,7 +126,7 @@ class Conference(db.Model):
     image_path = db.Column(db.String(1000))
 
     def __repr__(self):
-        return '<Conference {}>'.format(self.name())
+        return '<Conference {}>'.format(self.name)
 
 
 @login.user_loader

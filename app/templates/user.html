@@ -3,7 +3,7 @@
     <tr class=headDisplay>
         <td width="256px">
             {% if user.image_path %}
-            <img src={{user.image_path}} class="img-circle  " style="height: 256px; width: 256px;"> {% else %}
+            <img src={{user.image_path}} style="height: 256px; width: 256px;"> {% else %}
             <img src=" {{ user.avatar(256, user.first_name, user.last_name) }} " class="img-circle userTemplateProfileImage "> {% endif %}
         </td>
         <td>

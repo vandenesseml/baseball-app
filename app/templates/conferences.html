@@ -1,0 +1,3 @@
+{% extends "base.html" %} {% block app_content %}
+<h2>Conferences</h2>
+{% for conference in conferences %} {% include '_conference.html' %} {% endfor %} {% endblock %}
