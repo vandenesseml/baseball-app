@@ -1,0 +1,14 @@
+ {% extends "base.html" %} {% block app_content %}
+<table class="table body">
+    <tr>
+        <td width="256px">
+            {% if conference.image_path %}
+            <img src={{conference.image_path}} style="height: 256px; width: 200px;"> {% else %}
+            <img src=" {{ conference.avatar(256, conference.name) }} " class=" userTemplateProfileImage "> {% endif %}
+        </td>
+        <td>
+            <h1>{{conference.name()}}</h1>
+        </td>
+    </tr>
+</table>
+{% endblock %}
