@@ -1,0 +1,18 @@
+ {% extends "base.html" %} {% block app_content %}
+<table class="table body">
+    <tr>
+        <td width="256px">
+            {% if university.image_path %}
+            <img src={{university.image_path}} class="  " style="height: 256px; width: 200px;"> {% else %}
+            <img src=" {{ university.avatar(256, university.name) }} " class=" userTemplateProfileImage "> {% endif %}
+        </td>
+        <td>
+            <h1>{{university.name}}</h1>
+            <h4>Mascot: {{university.mascot}}</h4>
+            <h4>Employed: {{university.field_name}}</h4>
+            <h4>{{university.city}}, {{university.state}}</h4>
+            <h4>Conference: {{university.conference}}</h4>
+        </td>
+    </tr>
+</table>
+{% endblock %}

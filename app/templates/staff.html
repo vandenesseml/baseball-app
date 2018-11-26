@@ -3,7 +3,7 @@
     <tr>
         <td width="256px">
             {% if staff.image_path %}
-            <img src={{staff.image_path}} class="  " style="height: 256px; width: 200px;"> {% else %}
+            <img src={{staff.image_path}} style="height: 256px; width: 200px;"> {% else %}
             <img src=" {{ staff.avatar(256, staff.first_name, staff.last_name) }} " class=" userTemplateProfileImage "> {% endif %}
         </td>
         <td>

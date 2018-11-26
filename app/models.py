@@ -68,14 +68,14 @@ class Athlete(db.Model):
 
 class University(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    university_name = db.Column(db.String(120))
-    university_mascot = db.Column(db.String(120))
+    name = db.Column(db.String(120))
+    mascot = db.Column(db.String(120))
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
     field_name = db.Column(db.String(120))
     athletes = db.relationship('Athlete', backref='university', lazy='dynamic')
     staff = db.relationship('Staff', backref='university', lazy='dynamic')
-    conference_name = db.relationship(
+    conference = db.relationship(
         'Conference', backref='university', lazy='dynamic')
     image_path = db.Column(db.String(1000))
 
@@ -90,7 +90,7 @@ class Staff(db.Model):
     DOB = db.Column(db.String(11))
     start_date = db.Column(db.String(11))
     job_title = db.Column(db.String(120))
-    university_name = db.relationship(
+    university = db.relationship(
         'University', backref='staff', lazy='dynamic')
     image_path = db.Column(db.String(1000))
 
@@ -112,7 +112,7 @@ class Staff(db.Model):
 
 class conference(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    conference_name = db.Column(db.String(120))
+    name = db.Column(db.String(120))
     universities = db.relationship('University', backref='conference', lazy='dynamic')
     image_path = db.Column(db.String(1000))
 
