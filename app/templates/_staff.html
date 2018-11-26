@@ -4,7 +4,7 @@
         <td width="10px">
             <a class="removeUnderline" href="{{ url_for( 'staff', id=staff.id) }} ">
                 {% if staff.image_path %}
-                <img src={{staff.image_path}} class=sublistIamge> {% else %}
+                <img src={{staff.image_path}} class=athleteSublistImage> {% else %}
                 <img src=" {{ staff.avatar(35, staff.firt_name, staff.last_name) }} " class=" userTemplateProfileImage "> {% endif %}
             </a>
         </td>

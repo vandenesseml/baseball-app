@@ -162,5 +162,9 @@
 }
 .sublistIamge{
     height: 120px; 
-    width: 95px;
+    width: 100px;
+}
+.athleteSublistImage{
+    height: 120px; 
+    width: 80px;
 }
