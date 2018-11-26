@@ -112,3 +112,21 @@ def edit_profile():
 def athlete(id):
     athlete = Athlete.query.filter_by(id=id).first_or_404()
     return render_template('athlete.html', athlete=athlete)
+
+@app.route('/university/<id>')
+@login_required
+def university(id):
+    university = University.query.filter_by(id=id).first_or_404()
+    return render_template('university.html', university=university)
+
+@app.route('/staff/<id>')
+@login_required
+def staff(id):
+    staff = Staff.query.filter_by(id=id).first_or_404()
+    return render_template('staff.html', staff=staff)
+
+@app.route('/conference/<id>')
+@login_required
+def conference(id):
+    conference = Conference.query.filter_by(id=id).first_or_404()
+    return render_template('conference.html', conference=conference)
