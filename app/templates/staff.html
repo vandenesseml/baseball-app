@@ -11,7 +11,7 @@
             <h4>Title: {{staff.job_title}}</h4>
             <h4>Age: {{staff.get_age()}}</h4>
             <h4>University:
-                <a class="removeUnderline" href="{{ url_for( 'university', id=staff.university.id) }} ">{{staff.university_name}}</a>
+                <a class="removeUnderline" href="{{ url_for( 'university', id=staff.university.id) }} ">{{staff.university.name}}</a>
             </h4>
             <h4>Employed: {{staff.get_years_at_university()}}</h4>
         </td>

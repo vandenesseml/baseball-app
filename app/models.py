@@ -99,9 +99,9 @@ class Staff(db.Model):
         return math.floor((now - dob).days / 365)
 
     def get_years_at_university(self):
-        enrollment = datetime.strptime(self.enrollment_date, '%m/%d/%Y')
+        start_date = datetime.strptime(self.start_date, '%m/%d/%Y')
         now = datetime.now()
-        return '{} years'.format(math.floor((now - enrollment).days / 365))
+        return '{} years'.format(math.floor((now - start_date).days / 365))
 
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
