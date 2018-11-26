@@ -57,7 +57,11 @@ class Athlete(db.Model):
     def get_years_played(self):
         enrollment = datetime.strptime(self.enrollment_date, '%m/%d/%Y')
         now = datetime.now()
-        return '{} years'.format(math.floor((now - enrollment).days / 365))
+        years = math.floor((now - enrollment).days / 365)
+        if years == 0:
+            years = 1
+            return '{} year'.format(years)
+        return '{} years'.format(years)
 
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
@@ -101,7 +105,11 @@ class Staff(db.Model):
     def get_years_at_university(self):
         start_date = datetime.strptime(self.start_date, '%m/%d/%Y')
         now = datetime.now()
-        return '{} years'.format(math.floor((now - start_date).days / 365))
+        years = math.floor((now - start_date).days / 365)
+        if years == 0:
+            years = 1
+            return '{} year'.format(years)
+        return '{} years'.format(years)
 
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)

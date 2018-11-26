@@ -2,7 +2,7 @@
     <tr>
         <td width="10px">
             {% if university.image_path %}
-            <img src={{university.image_path}} style="height: 65px; width: 55px;"> {% else %}
+            <img src={{university.image_path}} class=sublistIamge> {% else %}
             <img src=" {{ university.avatar(35, university.name) }} " class=" userTemplateProfileImage "> {% endif %}
             </a>
         </td>

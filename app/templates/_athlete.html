@@ -1,0 +1,22 @@
+<table class="table">
+    <tr>
+        <td width="10px">
+            <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete.id) }} ">
+                {% if athlete.image_path %}
+                <img src={{athlete.image_path}} class=sublistIamge> {% else %}
+                <img src=" {{ athlete.avatar(35, athlete.name) }} " class=" userTemplateProfileImage "> {% endif %}
+            </a>
+        </td>
+        <td class=universityTable>
+            <table class="innerTable">
+                <tr>
+                    <td>
+                        <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete.id) }} ">{{athlete.get_full_name()}}</a>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+
+</table>

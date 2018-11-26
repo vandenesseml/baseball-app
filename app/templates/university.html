@@ -10,11 +10,14 @@
             <h1>{{university.name}}</h1>
             <h4>Mascot: {{university.mascot}}</h4>
             <h4>Employed: {{university.field_name}}</h4>
-            <h4>{{university.city}}, {{university.state}}</h4>
+            <h4>Location: {{university.city}}, {{university.state}}</h4>
             <h4>Conference:
                 <a class="removeUnderline" href="{{ url_for( 'conference', id=university.conference_id) }} ">{{university.conference.name}}</a>
             </h4>
         </td>
     </tr>
 </table>
-{% endblock %}
+<h4>Athletes</h4>
+{% for athlete in university.athletes %} {% include '_athlete.html' %} {% endfor %}
+<h4>Staff</h4>
+{% for staff in university.staff %} {% include '_staff.html' %} {% endfor %}{% endblock %}
