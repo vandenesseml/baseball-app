@@ -111,4 +111,4 @@ def edit_profile():
 @login_required
 def athlete(id):
     athlete = Athlete.query.filter_by(id=id).first_or_404()
-    return render_template('athlete.html', athlete=athelete)
+    return render_template('athlete.html', athlete=athlete)

@@ -3,11 +3,15 @@
     <tr>
         <td width="256px">
             {% if athlete.image_path %}
-            <img src={{athlete.image_path}} class="img-circle  " style="height: 256px; width: 256px;"> {% else %}
-            <img src=" {{ athlete.avatar(256, athlete.first_name, athlete.last_name) }} " class="img-circle athleteTemplateProfileImage "> {% endif %}
+            <img src={{athlete.image_path}} class="  " style="height: 256px; width: 200px;"> {% else %}
+            <img src=" {{ athlete.avatar(256, athlete.first_name, athlete.last_name) }} " class=" userTemplateProfileImage "> {% endif %}
         </td>
         <td>
-            <h1>{{athlete.full_name}}</h1>
+            <h1>{{athlete.get_full_name()}}</h1>
+            <h4>Age: {{athlete.get_age()}}</h4>
+            <h4>Active: {{athlete.get_years_played()}}</h4>
+            <h4>University: {{athlete.university_name}}</h4>
+            <h4>Country of origin: {{athlete.country_of_origin}}</h4>
 
         </td>
     </tr>

@@ -55,10 +55,66 @@ class Athlete(db.Model):
         return math.floor((now - dob).days / 365)
 
     def get_years_played(self):
-        enrollment = datetime.datetime.strptime(self.enrollment_date,
-                                                '%m/%d/%Y')
+        enrollment = datetime.strptime(self.enrollment_date, '%m/%d/%Y')
+        now = datetime.now()
+        return '{} years'.format(math.floor((now - enrollment).days / 365))
+
+    def get_full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    def __repr__(self):
+        return '<Athlete {}>'.format(self.get_full_name())
+
+
+class University(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    university_name = db.Column(db.String(120))
+    university_mascot = db.Column(db.String(120))
+    city = db.Column(db.String(120))
+    state = db.Column(db.String(120))
+    field_name = db.Column(db.String(120))
+    athletes = db.relationship('Athlete', backref='university', lazy='dynamic')
+    staff = db.relationship('Staff', backref='university', lazy='dynamic')
+    conference_name = db.relationship(
+        'Conference', backref='university', lazy='dynamic')
+
+    def __repr__(self):
+        return '<University {}>'.format(self.university_name)
+
+class Staff(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(120))
+    last_name = db.Column(db.String(120))
+    # in format mm/dd/yyyy
+    DOB = db.Column(db.String(11))
+    start_date = db.Column(db.String(11))
+    job_title = db.Column(db.String(120))
+    university_name = db.relationship(
+        'University', backref='staff', lazy='dynamic')
+
+    def get_age(self):
+        dob = datetime.strptime(self.DOB, '%m/%d/%Y')
         now = datetime.now()
         return math.floor((now - dob).days / 365)
+
+    def get_years_at_university(self):
+        enrollment = datetime.strptime(self.enrollment_date, '%m/%d/%Y')
+        now = datetime.now()
+        return '{} years'.format(math.floor((now - enrollment).days / 365))
+
+    def get_full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
+    def __repr__(self):
+        return '<Staff {}>'.format(self.get_full_name())
+
+class conference(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    conference_name = db.Column(db.String(120))
+    universities = db.relationship('University', backref='conference', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Conference {}>'.format(self.conference_name())
 
 
 @login.user_loader
