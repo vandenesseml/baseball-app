@@ -149,7 +149,14 @@
 }
 .removeUnderline {
     text-decoration: none !important;
+    cursor: pointer !important;
 }
 .statImages {
     margin-bottom: 5px;
+}
+.headDisplay{
+    background: #ddd;
+}
+.universityTable {
+    vertical-align: middle !important;
 }

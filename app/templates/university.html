@@ -1,6 +1,6 @@
- {% extends "base.html" %} {% block app_content %}
+ {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
 <table class="table body">
-    <tr>
+    <tr class=headDisplay>
         <td width="256px">
             {% if university.image_path %}
             <img src={{university.image_path}} class="  " style="height: 256px; width: 200px;"> {% else %}

@@ -1,6 +1,6 @@
  {% extends "base.html" %} {% block app_content %}
 <table class="table body">
-    <tr>
+    <tr class=headDisplay>
         <td width="256px">
             {% if conference.image_path %}
             <img src={{conference.image_path}} style="height: 256px; width: 200px;"> {% else %}
@@ -11,4 +11,4 @@
         </td>
     </tr>
 </table>
-{% endblock %}
+{% for university in conference.universities %} {% include '_university.html' %} {% endfor %} {% endblock %}
