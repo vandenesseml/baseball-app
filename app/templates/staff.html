@@ -1,19 +1,19 @@
  {% extends "base.html" %} {% block app_content %}
 <table class="table body">
     <tr class=headDisplay>
-        <td width="256px">
+        <td class=headerImageCell>
             {% if staff.image_path %}
-            <img src={{staff.image_path}} style="height: 256px; width: 200px;"> {% else %}
+            <img src={{staff.image_path}} class=headerImage> {% else %}
             <img src=" {{ staff.avatar(256, staff.first_name, staff.last_name) }} " class=" userTemplateProfileImage "> {% endif %}
         </td>
         <td>
-            <h1>{{staff.get_full_name()}}</h1>
-            <h4>Title: {{staff.job_title}}</h4>
-            <h4>Age: {{staff.get_age()}}</h4>
-            <h4>University:
+            <h2>{{staff.get_full_name()}}</h2>
+            <h5>Title: {{staff.job_title}}</h5>
+            <h5>Age: {{staff.get_age()}}</h5>
+            <h5>University:
                 <a class="removeUnderline" href="{{ url_for( 'university', id=staff.university.id) }} ">{{staff.university.name}}</a>
-            </h4>
-            <h4>Employed: {{staff.get_years_at_university()}}</h4>
+            </h5>
+            <h5>Employed: {{staff.get_years_at_university()}}</h5>
         </td>
     </tr>
 </table>

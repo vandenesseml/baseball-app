@@ -1,23 +1,23 @@
  {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
 <table class="table body">
     <tr class=headDisplay>
-        <td width="256px">
+        <td class=headerImageCell>
             {% if university.image_path %}
-            <img src={{university.image_path}} class="  " style="height: 256px; width: 200px;"> {% else %}
+            <img src={{university.image_path}} class=headerImage> {% else %}
             <img src=" {{ university.avatar(256, university.name) }} " class=" userTemplateProfileImage "> {% endif %}
         </td>
         <td>
-            <h1>{{university.name}}</h1>
-            <h4>Mascot: {{university.mascot}}</h4>
-            <h4>Employed: {{university.field_name}}</h4>
-            <h4>Location: {{university.city}}, {{university.state}}</h4>
-            <h4>Conference:
+            <h2>{{university.name}}</h2>
+            <h5>Mascot: {{university.mascot}}</h5>
+            <h5>Home Field: {{university.field_name}}</h5>
+            <h5>Location: {{university.city}}, {{university.state}}</h5>
+            <h5>Conference:
                 <a class="removeUnderline" href="{{ url_for( 'conference', id=university.conference_id) }} ">{{university.conference.name}}</a>
-            </h4>
+            </h5>
         </td>
     </tr>
 </table>
-<h4>Athletes</h4>
+<h5>Athletes</h5>
 {% for athlete in university.athletes %} {% include '_athlete.html' %} {% endfor %}
-<h4>Staff</h4>
+<h5>Staff</h5>
 {% for staff in university.staff %} {% include '_staff.html' %} {% endfor %}{% endblock %}

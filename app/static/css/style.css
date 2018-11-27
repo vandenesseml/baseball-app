@@ -161,10 +161,22 @@
     vertical-align: middle !important;
 }
 .sublistIamge{
-    height: 120px; 
+    height: 110px; 
     width: 100px;
 }
 .athleteSublistImage{
-    height: 120px; 
+    height: 110px; 
     width: 80px;
+}
+.headerImage{
+    height:260px;
+    width:190px;
+}
+.headerImageCell{
+    width:220px;
+}
+
+h5{
+    /* font-weight: 600 !important; */
+    line-height: 1 !important;
 }

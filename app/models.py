@@ -1,8 +1,10 @@
+import enum
 import math
 from datetime import datetime
 from hashlib import md5
 
 from flask_login import UserMixin
+from sqlalchemy import Enum, Integer
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db, login
@@ -36,7 +38,15 @@ class User(UserMixin, db.Model):
         return 'https://ui-avatars.com/api/?size={}&name={}+{}'.format(
             size, first_name, last_name)
 
-
+class bats_throws(enum.Enum):
+    R = 'R'
+    L = 'L'
+    S = 'S'
+class position(enum.Enum):
+    P = 1
+    ChildProcessError = 2
+    INF = 3, 4, 5, 6
+    OF = 7, 8, 9
 class Athlete(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(120))
@@ -48,6 +58,13 @@ class Athlete(db.Model):
     country_of_origin = db.Column(db.String(120))
     university_id = db.Column(db.Integer, db.ForeignKey('university.id'))
     image_path = db.Column(db.String(1000))
+    weight = db.Column(db.Integer)
+    height = db.Column(db.String(20))
+    bats = db.Column(Enum(bats_throws))
+    throws = db.Column(Enum(bats_throws))
+    position = db.Column(Enum(position))
+    number = db.Column(db.Integer)
+    high_school = db.Column(db.String(120))
 
     def get_age(self):
         dob = datetime.strptime(self.DOB, '%m/%d/%Y')

@@ -1,19 +1,23 @@
  {% extends "base.html" %} {% block app_content %}
 <table class="table body">
     <tr class=headDisplay>
-        <td width="256px">
+        <td class=headerImageCell>
             {% if athlete.image_path %}
-            <img src={{athlete.image_path}} class="  " style="height: 256px; width: 200px;"> {% else %}
+            <img src={{athlete.image_path}} class=headerImage> {% else %}
             <img src=" {{ athlete.avatar(256, athlete.first_name, athlete.last_name) }} " class=" userTemplateProfileImage "> {% endif %}
         </td>
         <td>
-            <h1>{{athlete.get_full_name()}}</h1>
-            <h4>Age: {{athlete.get_age()}}</h4>
-            <h4>Active: {{athlete.get_years_played()}}</h4>
-            <h4>University:
+            <h2>{{athlete.get_full_name()}}</h2>
+            <h5>Age: {{athlete.get_age()}}</h5>
+            <h5>Height/Weight: {{athlete.height}}/{{athlete.weight}}</h5>
+            <h5>Bats/Throws: {{athlete.bat}}/{{athlete.throws}}</h5>
+            <h5>Position: {{athlete.position.type}}</h5>
+            <h5>High School: {{athlete.high_school}}</h5>
+            <h5>Year: {{athlete.get_years_played()}}</h5>
+            <h5>University:
                 <a class="removeUnderline" href="{{ url_for( 'university', id=athlete.university_id) }} ">{{athlete.university.name}}</a>
-            </h4>
-            <h4>Country of origin: {{athlete.country_of_origin}}</h4>
+            </h5>
+            <h5>Country of origin: {{athlete.country_of_origin}}</h5>
 
         </td>
     </tr>
