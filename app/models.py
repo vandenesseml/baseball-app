@@ -38,15 +38,7 @@ class User(UserMixin, db.Model):
         return 'https://ui-avatars.com/api/?size={}&name={}+{}'.format(
             size, first_name, last_name)
 
-class bats_throws(enum.Enum):
-    R = 'R'
-    L = 'L'
-    S = 'S'
-class position(enum.Enum):
-    P = 1
-    ChildProcessError = 2
-    INF = 3, 4, 5, 6
-    OF = 7, 8, 9
+
 class Athlete(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(120))
@@ -60,9 +52,9 @@ class Athlete(db.Model):
     image_path = db.Column(db.String(1000))
     weight = db.Column(db.Integer)
     height = db.Column(db.String(20))
-    bats = db.Column(Enum(bats_throws))
-    throws = db.Column(Enum(bats_throws))
-    position = db.Column(Enum(position))
+    bats = db.Column(Enum('R', 'L', 'S'))
+    throws = db.Column(Enum('R', 'L', 'S'))
+    position = db.Column(Enum('P', 'C', 'INF', 'OF'))
     number = db.Column(db.Integer)
     high_school = db.Column(db.String(120))
 

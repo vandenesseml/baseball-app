@@ -8,12 +8,12 @@
         </td>
         <td>
             <h2>{{athlete.get_full_name()}}</h2>
-            <h5>Age: {{athlete.get_age()}}</h5>
-            <h5>Height/Weight: {{athlete.height}}/{{athlete.weight}}</h5>
-            <h5>Bats/Throws: {{athlete.bat}}/{{athlete.throws}}</h5>
-            <h5>Position: {{athlete.position.type}}</h5>
+            <h5>Height: {{athlete.height}}</h5>
+            <h5>Weight: {{athlete.weight}}</h5>
+            <h5>Bats/Throws: {{athlete.bats}}/{{athlete.throws}}</h5>
+            <h5>Position: {{athlete.position}}</h5>
             <h5>High School: {{athlete.high_school}}</h5>
-            <h5>Year: {{athlete.get_years_played()}}</h5>
+            <h5>Played: {{athlete.get_years_played()}}</h5>
             <h5>University:
                 <a class="removeUnderline" href="{{ url_for( 'university', id=athlete.university_id) }} ">{{athlete.university.name}}</a>
             </h5>
