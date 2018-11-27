@@ -1,0 +1,14 @@
+ {% extends "base.html" %} {% block app_content %}
+<table class="table body">
+    <tr class=headDisplay>
+        <td class=headerImageCell>
+            {% if staff.image_path %}
+            <img src={{staff.image_path}} class=headerImage> {% else %}
+            <img src=" {{ staff.avatar(256, staff.first_name, staff.last_name) }} " class=" userTemplateProfileImage "> {% endif %}
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+</table>
+{% endblock %}

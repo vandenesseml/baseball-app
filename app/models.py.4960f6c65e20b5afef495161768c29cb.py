@@ -138,7 +138,7 @@ class draft(db.Model):
     mascot = db.Column(db.String(120))
     field_name = db.Column(db.String(120))
     athletes = db.relationship('Athlete', backref='draft', lazy='dynamic')
-    staff = db.relationship('Staff', backref='draft', lazy='dynamic')
+    staff = db.relationship('Staff', backref='draft', lazy='dynamic')r
     conference_id = db.Column(db.Integer, db.ForeignKey('conference.id'))
 
 

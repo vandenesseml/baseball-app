@@ -145,3 +145,9 @@ def conferences():
     conferences = Conference.query.all()
     return render_template(
         'conferences.html', conferences=conferences, title='Conferences')
+
+@app.route('/draft')
+@login_required
+def draft():
+    return render_template(
+        'draft.html', title='Build your draft')
