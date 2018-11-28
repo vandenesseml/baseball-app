@@ -149,5 +149,6 @@ def conferences():
 @app.route('/fantasy')
 @login_required
 def Fantasy():
+    fantasy = Fantasy.query.filter_by(user_id=current_user.id).first()
     return render_template(
-        'fantasy.html', title='Fantasy Team')
+        'fantasy.html', title='Fantasy Team', fantasy=fantasy)
