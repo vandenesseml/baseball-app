@@ -8,8 +8,8 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 
 from app import app, db
-from app.forms import EditProfileForm, LoginForm, RegistrationForm
-from app.models import Athlete, Conference, Staff, University, User
+from app.forms import EditProfileForm, FantasyForm, LoginForm, RegistrationForm
+from app.models import Athlete, Conference, Fantasy, Staff, University, User
 from config import Config
 
 
@@ -146,9 +146,34 @@ def conferences():
     return render_template(
         'conferences.html', conferences=conferences, title='Conferences')
 
-@app.route('/fantasy')
+
+@app.route('/fantasy', methods=['GET', 'POST'])
 @login_required
-def Fantasy():
-    fantasy = Fantasy.query.filter_by(user_id=current_user.id).first()
+def FantasyTeam():
+    fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
+    fantasyForm = FantasyForm()
+    if fantasyForm.validate_on_submit():
+        if fantasyForm.createTeam.data:
+            fantasyTeam = Fantasy(user=current_user)
+            db.session.add(fantasyTeam)
+            db.session.commit()
+            flash('Your fantasy team has been created!')
+        if fantasyForm.teamImage.data:
+            photo = request.files['teamImage']
+            filename = secure_filename(photo.filename)
+            print(filename)
+            extension = filename.split('.')[1]
+            filename = str(
+                hashlib.md5(filename.split('.')[0].encode()).hexdigest())
+            filename = filename + '.' + extension
+            photo.save(
+                os.path.join(Config.FANTASY_TEAM_IMAGE_UPLOAD_FOLDER, filename))
+            fantasyTeam.image_path = os.path.join(
+                Config.FANTASY_TEAM_IMAGE_ACCESS_PATH, filename)
+        db.session.commit()
+        flash('You have added a team image')
     return render_template(
-        'fantasy.html', title='Fantasy Team', fantasy=fantasy)
+        'fantasy.html',
+        title='Fantasy Team',
+        fantasyTeam=fantasyTeam,
+        fantasyForm=fantasyForm)

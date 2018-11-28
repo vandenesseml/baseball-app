@@ -51,3 +51,8 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError('Please use a different username.')
+class FantasyForm(FlaskForm):
+    createTeam = SubmitField('Yes')
+    teamImage = FileField(label='Update a Team Image')
+    submit = SubmitField('Update')
+    

@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(120))
     last_name = db.Column(db.String(120))
     full_name = db.Column(db.String(240))
-    draft = db.relationship('Fantasy', backref='user', lazy='dynamic')
+    fantasy = db.relationship('Fantasy', backref='user', lazy='dynamic')
 
     def edit_profile_image(self, image_path):
         self.image_path = image_path
@@ -139,7 +139,8 @@ class Fantasy(db.Model):
     state = db.Column(db.String(120))
     mascot = db.Column(db.String(120))
     field_name = db.Column(db.String(120))
-    athletes = db.relationship('Athlete', backref='fantasy', lazy='dynamic')
+    athletes = db.relationship(
+        'Athlete', backref='fantasy', lazy='dynamic')
     # staff = db.relationship('Staff', backref='fantasy', lazy='dynamic')
     conference_id = db.Column(db.Integer, db.ForeignKey('conference.id'))
 
