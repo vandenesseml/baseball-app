@@ -146,8 +146,8 @@ def conferences():
     return render_template(
         'conferences.html', conferences=conferences, title='Conferences')
 
-@app.route('/Fantasy_team')
+@app.route('/fantasy')
 @login_required
-def Fantasy_team():
+def Fantasy():
     return render_template(
-        'Fantasy_team.html', title='Fantasy Team')
+        'fantasy.html', title='Fantasy Team')

@@ -106,7 +106,7 @@ class Staff(db.Model):
     start_date = db.Column(db.String(11))
     job_title = db.Column(db.String(120))
     university_id = db.Column(db.Integer, db.ForeignKey('university.id'))
-    fantasy_id = db.Column(db.Integer, db.ForeignKey('fantasy.id'))
+    # fantasy_id = db.Column(db.Integer, db.ForeignKey('fantasy.id'))
     image_path = db.Column(db.String(1000))
 
     def get_age(self):
@@ -140,7 +140,7 @@ class Fantasy(db.Model):
     mascot = db.Column(db.String(120))
     field_name = db.Column(db.String(120))
     athletes = db.relationship('Athlete', backref='fantasy', lazy='dynamic')
-    staff = db.relationship('Staff', backref='fantasy', lazy='dynamic')
+    # staff = db.relationship('Staff', backref='fantasy', lazy='dynamic')
     conference_id = db.Column(db.Integer, db.ForeignKey('conference.id'))
 
 
@@ -150,7 +150,8 @@ class Conference(db.Model):
     universities = db.relationship(
         'University', backref='conference', lazy='dynamic')
     image_path = db.Column(db.String(1000))
-    fantasy_id = db.relationship('Fantasy', backref='conference', lazy='dynamic')
+    fantasy_id = db.relationship(
+        'Fantasy', backref='conference', lazy='dynamic')
 
     def __repr__(self):
         return '<Conference {}>'.format(self.name)
