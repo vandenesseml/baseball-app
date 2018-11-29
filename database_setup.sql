@@ -7,7 +7,7 @@ create table user(
     email               varchar2(120) not null unique,
     password_hash       varchar2(120),
     about_me            varchar2(140),
-    last_seen           datetime, -- yyyy-mm-dd hh:mm:ss
+    last_seen           datetime,                                           -- yyyy-mm-dd hh:mm:ss
     image_path          varchar2(120),
     first_name          varchar2(120),
     last_name           varchar2(120),
@@ -59,7 +59,7 @@ create table staff (
 );
 
 -- conference table
-create tabel conference (
+create table conference (
     id                  number(4,0)     primary key,
     name                varchar2(120),
     -- universities     need list of universities
