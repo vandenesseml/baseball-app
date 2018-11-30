@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block app_content %}
 <form action="" method="post" enctype="multipart/form-data">
-    {{ fantasyForm.csrf_token() }} {% if fantasyTeam %}
+    {{ fantasyForm.csrf_token() }}
 
     <table class="table body">
         <tr class=headDisplay>
@@ -43,15 +43,16 @@
                 {{ fantasyForm.state()}}
                 {% endif %}
                 {% if fantasyTeam.conference %}
-                <h5>Conference: {{fantasyTeam.conference.name}}</h5>
+                <h5>Conference: <a class="removeUnderline" href="{{ url_for( 'conference', id=fantasyTeam.conference_id) }} ">{{
+                        fantasyTeam.conference.name}}</a></h5>
                 {% else %}
                 <br>
                 {{fantasyForm.conference.label}}
-                {{ fantasyForm.conference()}}
+
                 <table>
                     <tr>
                         <td>
-                            {{ fantasyForm.submit(class_="commentSubmit btn-default btn")}}
+                            {{ fantasyForm.submit_profile(class_="commentSubmit btn-default btn")}}
                         </td>
                     </tr>
                 </table>
@@ -61,15 +62,40 @@
 
         </tr>
     </table>
-
-    {% else %}
-    <table class="table body">
-        <tr class=headDisplay>
-            <h4>You do not have a fantasy team. Would you like top create one?</h4>
-            {{ fantasyForm.createTeam(class_="commentSubmit btn-default btn")}}
-        </tr>
-    </table>
-    {% endif %}
-
 </form>
+
+
+<table class="table body">
+    <tr>
+
+        <td>
+            <h3>Team Roster</h3>
+            {% for athlete in fantasyTeam.athletes %} {% include '_roster.html' %} {% endfor %}
+        </td>
+
+        <td>
+            <form action="" method="post" enctype="multipart/form-data">
+                {{fantasyForm.conference_attr.label}}
+                <h3>Select Player Attributes</h3>
+                {{ fantasyForm.conference_attr()}}
+                <table>
+                    <tr>
+                        <td>
+
+                            {{ fantasyForm.csrf_token() }}
+                            {{ fantasyForm.submit_attr(class_="commentSubmit btn-default btn")}}
+
+                        </td>
+
+                    </tr>
+                </table>
+            </form>
+        </td>
+        <td>
+            <h3>Results</h3>
+            {% for athlete in athletes %} {% include '_results.html' %} {% endfor %}
+        </td>
+    </tr>
+</table>
+
 {% endblock %}

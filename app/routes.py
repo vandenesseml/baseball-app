@@ -152,16 +152,16 @@ def conferences():
 def FantasyTeam():
     fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     fantasyForm = FantasyForm()
+    athletes = []
+    athlete_add = Athlete()
     conferences = Conference.query.all()
     fantasyForm.conference.choices.append((0, ''))
     for conference in conferences:
         fantasyForm.conference.choices.append((conference.id, conference.name))
-    if fantasyForm.createTeam.data:
-            fantasyTeam = Fantasy(user=current_user)
-            db.session.add(fantasyTeam)
-            db.session.commit()
-            flash('Your fantasy team has been created!')
-    if fantasyForm.submit.data:
+        fantasyForm.conference_attr.choices.append((conference.id, conference.name))
+        fantasyForm.conference_attr.choices.append((0, ''))
+   
+    if fantasyForm.submit_profile.data:
         photo = request.files['teamImage']
         filename = secure_filename(photo.filename)
         extension = filename.split('.')[1]
@@ -179,12 +179,19 @@ def FantasyTeam():
         fantasyTeam.state=fantasyForm.state.data
         id = fantasyForm.conference.data
         conference = Conference.query.filter_by(id=id).first()
-        fantasyTeam.conference=conference 
+        fantasyTeam.conference=conference
+        db.session.commit() 
         flash('Your fantasy team profile has been created!')
+    if fantasyForm.submit_attr.data:
+        if fantasyForm.conference_attr.data:
+            athletes = Athlete.query.filter_by(university_id=1).all()
+        # db.session.commit()
+    if fantasyForm.add_player.data: 
+        athlete=Athlete.query.filter_by(id=fantasyForm.add_player.data).first()
+        athlete.fantasy_id=fantasyTeam.id
         db.session.commit()
-        
     return render_template(
         'fantasy.html',
         title='Fantasy Team',
         fantasyTeam=fantasyTeam,
-        fantasyForm=fantasyForm)
+        fantasyForm=fantasyForm, athletes=athletes, athlete_add=athlete_add)
