@@ -1,7 +1,8 @@
 -- Database setup file for baseball-app
+create database baseball_app_db;
 
 -- user table
-create table user(
+create table user (
     id                  number(4,0) primary key,
     username            varchar2(64) not null unique,
     email               varchar2(120) not null unique,
@@ -34,7 +35,7 @@ create table athlete (
 );
 
 -- university table
-create table unversity (
+create table university (
     id                  number(4,0)     primary key,
     name                varchar2(120),
     mascot              varchar2(120),
@@ -64,4 +65,64 @@ create table conference (
     name                varchar2(120),
     -- universities     need list of universities
     image_path          varchar2(120)
+);
+
+-- pitcher career table
+create table pitcher_career (
+    first_name          varchar2(120)   references athlete(first_name),
+    last_name           varchar2(120)   references athlete(last_name),
+    DOB                 varchar2(11)    references athlete(DOB),
+    -- seasons          need list of seasons
+    appearances         number(4,0),
+    innings_thrown      number(4,0),
+    runs_allowed        number(4,0),
+    earned_run_average  number(4,2),
+    strikeouts          number(4,0)
+);
+
+-- pitcher season table
+create table pitcher_season (
+    first_name          varchar2(120)   references athlete(first_name),
+    last_name           varchar2(120)   references athlete(last_name),
+    DOB                 varchar2(11)    references athlete(DOB),
+    seasons             number(4,0),                                        -- this is just the year
+    appearances         number(4,0),
+    innings_thrown      number(4,0),
+    runs_allowed        number(4,0),
+    earned_run_average  number(4,2),
+    strikeouts          number(4,0)
+);
+
+-- postion player career table
+create table position_player_career (
+    first_name          varchar2(120)   references athlete(first_name),
+    last_name           varchar2(120)   references athlete(last_name),
+    DOB                 varchar2(11)    references athlete(DOB),
+    -- seasons          need list of seasons
+    games_played        number(4,0),
+    innings_played      number(4,0),
+    at_bats             number(4,0),
+    hits                number(4,0),
+    walks               number(4,0),
+    runs_scored         number(4,0),
+    runs_batted_in      number(4,0),
+    home_runs           number(4,0),
+    batting_average     number(4,3)
+);
+
+-- postion player season table
+create table position_player_season (
+    first_name          varchar2(120) references athlete(first_name),
+    last_name           varchar2(120) references athlete(last_name),
+    DOB                 varchar2(11) references athlete(DOB),
+    season              number(4,0),                                    -- this is just the year
+    games_played        number(4,0),
+    innings_played      number(4,0),
+    at_bats             number(4,0),
+    hits                number(4,0),
+    walks               number(4,0),
+    runs_scored         number(4,0),
+    runs_batted_in      number(4,0),
+    home_runs           number(4,0),
+    batting_average     number(4,3)
 );
