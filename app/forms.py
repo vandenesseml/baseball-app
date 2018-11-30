@@ -55,4 +55,10 @@ class FantasyForm(FlaskForm):
     createTeam = SubmitField('Yes')
     teamImage = FileField(label='Update a Team Image')
     submit = SubmitField('Update')
+    team_name = StringField('Team Name')
+    mascot = StringField('Mascot')
+    field_name = StringField('Field Name')
+    city = StringField('City')
+    state = StringField('State')
+    conference = SelectField('Conference', choices=[])
     

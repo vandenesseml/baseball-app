@@ -170,6 +170,17 @@ def FantasyTeam():
                 os.path.join(Config.FANTASY_TEAM_IMAGE_UPLOAD_FOLDER, filename))
             fantasyTeam.image_path = os.path.join(
                 Config.FANTASY_TEAM_IMAGE_ACCESS_PATH, filename)
+        if fantasyForm.team_name.data:
+            fantasyTeam.team_name=fantasyForm.team_name.data
+        if fantasyForm.mascot.data:
+            fantasyTeam.mascot=fantasyForm.mascot.data
+        if fantasyForm.field_name.data:
+            fantasyTeam.field_name=fantasyForm.field_name.data
+        if fantasyForm.city.data:
+            fantasyTeam.city=fantasyForm.city.data
+        if fantasyForm.state.data:
+            fantasyTeam.state=fantasyForm.state.data    
+
         db.session.commit()
         flash('You have added a team image')
     return render_template(

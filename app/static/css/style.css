@@ -183,3 +183,8 @@ h5{
 h2{
     margin-top: 10px !important;
 }
+.teamImage{
+    margin-top:5px;
+    float: left !important;
+    width: 190px;
+}
