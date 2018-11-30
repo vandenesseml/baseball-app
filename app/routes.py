@@ -187,9 +187,15 @@ def FantasyTeam():
             athletes = Athlete.query.filter_by(university_id=1).all()
         # db.session.commit()
     if fantasyForm.add_player.data: 
-        athlete=Athlete.query.filter_by(id=fantasyForm.add_player.data).first()
+        athlete=Athlete.query.filter_by(id=fantasyForm.athlete.data).first()
         athlete.fantasy_id=fantasyTeam.id
         db.session.commit()
+        flash('You adde {} to your fantasy team!'.format(athlete.get_full_name()))
+    if fantasyForm.remove_player.data: 
+        athlete=Athlete.query.filter_by(id=fantasyForm.athlete.data).first()
+        athlete.fantasy_id=''
+        db.session.commit()
+        flash('You removed {} from your fantasy team!'.format(athlete.get_full_name()))
     return render_template(
         'fantasy.html',
         title='Fantasy Team',

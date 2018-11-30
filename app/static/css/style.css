@@ -63,6 +63,10 @@
     margin-top:5px;
     float:right !important;
 }
+.commentSubmitLeft{
+    margin-top:5px;
+    float:left !important;
+}
 .comments {
     margin-left: 40px;
     display: inline-block;
