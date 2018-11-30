@@ -152,37 +152,37 @@ def conferences():
 def FantasyTeam():
     fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     fantasyForm = FantasyForm()
-    if fantasyForm.validate_on_submit():
-        if fantasyForm.createTeam.data:
+    conferences = Conference.query.all()
+    fantasyForm.conference.choices.append((0, ''))
+    for conference in conferences:
+        fantasyForm.conference.choices.append((conference.id, conference.name))
+    if fantasyForm.createTeam.data:
             fantasyTeam = Fantasy(user=current_user)
             db.session.add(fantasyTeam)
             db.session.commit()
             flash('Your fantasy team has been created!')
-        if fantasyForm.teamImage.data:
-            photo = request.files['teamImage']
-            filename = secure_filename(photo.filename)
-            print(filename)
-            extension = filename.split('.')[1]
-            filename = str(
-                hashlib.md5(filename.split('.')[0].encode()).hexdigest())
-            filename = filename + '.' + extension
-            photo.save(
-                os.path.join(Config.FANTASY_TEAM_IMAGE_UPLOAD_FOLDER, filename))
-            fantasyTeam.image_path = os.path.join(
-                Config.FANTASY_TEAM_IMAGE_ACCESS_PATH, filename)
-        if fantasyForm.team_name.data:
-            fantasyTeam.team_name=fantasyForm.team_name.data
-        if fantasyForm.mascot.data:
-            fantasyTeam.mascot=fantasyForm.mascot.data
-        if fantasyForm.field_name.data:
-            fantasyTeam.field_name=fantasyForm.field_name.data
-        if fantasyForm.city.data:
-            fantasyTeam.city=fantasyForm.city.data
-        if fantasyForm.state.data:
-            fantasyTeam.state=fantasyForm.state.data    
-
+    if fantasyForm.submit.data:
+        photo = request.files['teamImage']
+        filename = secure_filename(photo.filename)
+        extension = filename.split('.')[1]
+        filename = str(
+            hashlib.md5(filename.split('.')[0].encode()).hexdigest())
+        filename = filename + '.' + extension
+        photo.save(
+            os.path.join(Config.FANTASY_TEAM_IMAGE_UPLOAD_FOLDER, filename))
+        fantasyTeam.image_path = os.path.join(
+            Config.FANTASY_TEAM_IMAGE_ACCESS_PATH, filename)
+        fantasyTeam.team_name=fantasyForm.team_name.data
+        fantasyTeam.mascot=fantasyForm.mascot.data
+        fantasyTeam.field_name=fantasyForm.field_name.data
+        fantasyTeam.city=fantasyForm.city.data
+        fantasyTeam.state=fantasyForm.state.data
+        id = fantasyForm.conference.data
+        conference = Conference.query.filter_by(id=id).first()
+        fantasyTeam.conference=conference 
+        flash('Your fantasy team profile has been created!')
         db.session.commit()
-        flash('You have added a team image')
+        
     return render_template(
         'fantasy.html',
         title='Fantasy Team',

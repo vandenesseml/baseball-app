@@ -1,13 +1,14 @@
-{% extends "base.html" %} {% block app_content %} {% if fantasyTeam %}
+{% extends "base.html" %} {% block app_content %}
 <form action="" method="post" enctype="multipart/form-data">
-    {{ fantasyForm.csrf_token() }}
+    {{ fantasyForm.csrf_token() }} {% if fantasyTeam %}
+
     <table class="table body">
         <tr class=headDisplay>
             <td class=headerImageCell>
                 {% if fantasyTeam.image_path %}
                 <img src={{fantasyTeam.image_path}} class=headerImage>
-                {{ fantasyForm.teamImage(class_="teamImage")}}
                 {% else %}
+                {{ fantasyForm.teamImage.label}}
                 {{ fantasyForm.teamImage(class_="teamImage")}}
                 {% endif %}
             </td>
@@ -41,10 +42,26 @@
                 {{fantasyForm.state.label}}
                 {{ fantasyForm.state()}}
                 {% endif %}
+                {% if fantasyTeam.conference %}
+                <h5>Conference: {{fantasyTeam.conference.name}}</h5>
+                {% else %}
+                <br>
+                {{fantasyForm.conference.label}}
+                {{ fantasyForm.conference()}}
+                <table>
+                    <tr>
+                        <td>
+                            {{ fantasyForm.submit(class_="commentSubmit btn-default btn")}}
+                        </td>
+                    </tr>
+                </table>
+                {% endif %}
 
             </td>
+
         </tr>
     </table>
+
     {% else %}
     <table class="table body">
         <tr class=headDisplay>
@@ -53,6 +70,6 @@
         </tr>
     </table>
     {% endif %}
-    {{ fantasyForm.submit(class_="commentSubmit btn-default btn")}}
+
 </form>
 {% endblock %}

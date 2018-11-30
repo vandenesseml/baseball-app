@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (BooleanField, FileField, HiddenField, PasswordField,
-                     StringField, SubmitField, TextAreaField)
+                     StringField, SubmitField, TextAreaField, SelectField)
 from wtforms.validators import (DataRequired, Email, EqualTo, Length,
                                 ValidationError)
 
@@ -53,12 +53,11 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Please use a different username.')
 class FantasyForm(FlaskForm):
     createTeam = SubmitField('Yes')
-    teamImage = FileField(label='Update a Team Image')
-    submit = SubmitField('Update')
-    team_name = StringField('Team Name')
-    mascot = StringField('Mascot')
-    field_name = StringField('Field Name')
-    city = StringField('City')
-    state = StringField('State')
-    conference = SelectField('Conference', choices=[])
-    
+    teamImage = FileField('Team Image', [DataRequired])
+    submit = SubmitField('Update', [DataRequired])
+    team_name = StringField('Team Name' ,[DataRequired])
+    mascot = StringField('Mascot', [DataRequired])
+    field_name = StringField('Field Name', [DataRequired])
+    city = StringField('City', [DataRequired])
+    state = StringField('State', [DataRequired])
+    conference = SelectField('Conference', [DataRequired], coerce=int, choices=[])
