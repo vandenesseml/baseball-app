@@ -1,6 +1,8 @@
 -- Database setup file for baseball-app
 create database baseball_app_db;
 
+use baseball_app_db;
+
 -- user table
 create table user (
     id                  int             primary key,
@@ -31,8 +33,8 @@ create table university (
     city                varchar(120),
     state               varchar(120),
     field_name          varchar(120),
-    -- athletes         need to collect list of athletes
-    -- staff            need to collect list of staff
+    -- athletes         using a query to acquire the list of athletes
+    -- staff            using a query to acquire teh list of staff
     conference_id       int            references conference(id),
     image_path          varchar(120)
 );
@@ -80,15 +82,15 @@ create table pitcher_career (
 );
 
 -- pitcher season table (not used)
-create table pitcher_season (
-    athlete_id          int             references athlete(id),
-    season              int,                                                -- this is just the year
-    appearances         int,
-    innings_thrown      int,
-    runs_allowed        int,
-    earned_run_average  int,
-    strikeouts          int
-);
+-- create table pitcher_season (
+--     athlete_id          int             references athlete(id),
+--     season              int,                                                -- this is just the year
+--     appearances         int,
+--     innings_thrown      int,
+--     runs_allowed        int,
+--     earned_run_average  int,
+--     strikeouts          int
+-- );
 
 -- postion player career table
 create table position_player_career (
@@ -105,16 +107,16 @@ create table position_player_career (
 );
 
 -- postion player season table
-create table position_player_season (
-    athlete_id          int             references athlete(id),
-    season              int,                                    -- this is just the year
-    games_played        int,
-    innings_played      int,
-    at_bats             int,
-    hits                int,
-    walks               int,
-    runs_scored         int,
-    runs_batted_in      int,
-    home_runs           int,
-    batting_average     decimal(4,3)
-);
+-- create table position_player_season (
+--     athlete_id          int             references athlete(id),
+--     season              int,                                    -- this is just the year
+--     games_played        int,
+--     innings_played      int,
+--     at_bats             int,
+--     hits                int,
+--     walks               int,
+--     runs_scored         int,
+--     runs_batted_in      int,
+--     home_runs           int,
+--     batting_average     decimal(4,3)
+-- );
