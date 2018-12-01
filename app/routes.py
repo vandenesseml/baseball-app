@@ -162,6 +162,7 @@ def FantasyTeam():
         universities = University.query.filter_by(conference_id=fantasyForm.conference_attr.data)
         for university in universities:
             fantasyForm.university_attr.choices.append((university.id, university.name))
+    
     if fantasyForm.submit_profile.data:
         photo = request.files['teamImage']
         filename = secure_filename(photo.filename)
