@@ -153,14 +153,15 @@ def FantasyTeam():
     fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     fantasyForm = FantasyForm()
     athletes = []
-    athlete_add = Athlete()
     conferences = Conference.query.all()
     fantasyForm.conference.choices.append((0, ''))
+    fantasyForm.conference_attr.choices.append((0, ''))
     for conference in conferences:
         fantasyForm.conference.choices.append((conference.id, conference.name))
         fantasyForm.conference_attr.choices.append((conference.id, conference.name))
-        fantasyForm.conference_attr.choices.append((0, ''))
-   
+    if fantasyForm.conference_attr.data:
+        # join athlete and university on athlete.university_id == university.id where university.conference_id == the selected conference id
+        athletes = db.session.query(Athlete).join(University).filter(Athlete.university_id==University.id).filter(University.conference_id==fantasyForm.conference_attr.data).all()
     if fantasyForm.submit_profile.data:
         photo = request.files['teamImage']
         filename = secure_filename(photo.filename)
@@ -200,4 +201,4 @@ def FantasyTeam():
         'fantasy.html',
         title='Fantasy Team',
         fantasyTeam=fantasyTeam,
-        fantasyForm=fantasyForm, athletes=athletes, athlete_add=athlete_add)
+        fantasyForm=fantasyForm, athletes=athletes)

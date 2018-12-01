@@ -6,25 +6,29 @@
         <tr class=headDisplay>
             <td class=headerImageCell>
                 {% if fantasyTeam.image_path %}
-                <img src={{fantasyTeam.image_path}} class=headerImage> {% else %} {{ fantasyForm.teamImage.label}} {{ fantasyForm.teamImage(class_="teamImage")}} {% endif %}
+                <img src={{fantasyTeam.image_path}} class=headerImage> {% else %} {{ fantasyForm.teamImage.label}} {{
+                fantasyForm.teamImage(class_="teamImage")}} {% endif %}
             </td>
             <td>
                 {% if fantasyTeam.team_name %}
                 <h2>{{fantasyTeam.team_name}}</h2>
-                {% else %}{{fantasyForm.team_name.label}} {{ fantasyForm.team_name()}} {% endif %} {% if fantasyTeam.mascot %}
+                {% else %}{{fantasyForm.team_name.label}} {{ fantasyForm.team_name()}} {% endif %} {% if
+                fantasyTeam.mascot %}
                 <h5>Mascot: {{fantasyTeam.mascot}}</h5>
                 {% else %}
                 <br> {{fantasyForm.mascot.label}} {{ fantasyForm.mascot()}} {% endif %} {% if fantasyTeam.field_name %}
                 <h5>Home Field :{{fantasyTeam.field_name}}</h5>
                 {% else %}
-                <br> {{fantasyForm.field_name.label}} {{ fantasyForm.field_name()}} {% endif %} {% if fantasyTeam.city and fantasyTeam.state
+                <br> {{fantasyForm.field_name.label}} {{ fantasyForm.field_name()}} {% endif %} {% if fantasyTeam.city
+                and fantasyTeam.state
                 %}
                 <h5>Location: {{fantasyTeam.city}}, {{fantasyTeam.state}}</h5>
                 {% else %}
                 <br> {{fantasyForm.city.label}} {{ fantasyForm.city()}}
                 <br> {{fantasyForm.state.label}} {{ fantasyForm.state()}} {% endif %} {% if fantasyTeam.conference %}
                 <h5>Conference:
-                    <a class="removeUnderline" href="{{ url_for( 'conference', id=fantasyTeam.conference_id) }} ">{{ fantasyTeam.conference.name}}
+                    <a class="removeUnderline" href="{{ url_for( 'conference', id=fantasyTeam.conference_id) }} ">{{
+                        fantasyTeam.conference.name}}
                     </a>
                 </h5>
                 {% else %}
@@ -56,14 +60,16 @@
 
         <td>
             <form action="" method="post" enctype="multipart/form-data">
+                {{ fantasyForm.csrf_token() }}
                 {{fantasyForm.conference_attr.label}}
                 <h3>Select Player Attributes</h3>
-                {{ fantasyForm.conference_attr()}}
+                {{ fantasyForm.conference_attr.label}}
+                {{ fantasyForm.conference_attr(**{"onchange":"this.form.submit()"})}}
                 <table>
                     <tr>
                         <td>
 
-                            {{ fantasyForm.csrf_token() }} {{ fantasyForm.submit_attr(class_="commentSubmit btn-default btn")}}
+                            {{ fantasyForm.submit_attr(class_="commentSubmit btn-default btn")}}
 
                         </td>
 
