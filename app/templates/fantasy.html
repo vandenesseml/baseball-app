@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block app_content %}
+{% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
 <form action="" method="post" enctype="multipart/form-data">
     {{ fantasyForm.csrf_token() }}
 
@@ -6,48 +6,29 @@
         <tr class=headDisplay>
             <td class=headerImageCell>
                 {% if fantasyTeam.image_path %}
-                <img src={{fantasyTeam.image_path}} class=headerImage>
-                {% else %}
-                {{ fantasyForm.teamImage.label}}
-                {{ fantasyForm.teamImage(class_="teamImage")}}
-                {% endif %}
+                <img src={{fantasyTeam.image_path}} class=headerImage> {% else %} {{ fantasyForm.teamImage.label}} {{ fantasyForm.teamImage(class_="teamImage")}} {% endif %}
             </td>
             <td>
                 {% if fantasyTeam.team_name %}
                 <h2>{{fantasyTeam.team_name}}</h2>
-                {% else %}{{fantasyForm.team_name.label}}
-                {{ fantasyForm.team_name()}}
-                {% endif %}
-                {% if fantasyTeam.mascot %}
+                {% else %}{{fantasyForm.team_name.label}} {{ fantasyForm.team_name()}} {% endif %} {% if fantasyTeam.mascot %}
                 <h5>Mascot: {{fantasyTeam.mascot}}</h5>
                 {% else %}
-                <br>
-                {{fantasyForm.mascot.label}}
-                {{ fantasyForm.mascot()}}
-                {% endif %}
-                {% if fantasyTeam.field_name %}
+                <br> {{fantasyForm.mascot.label}} {{ fantasyForm.mascot()}} {% endif %} {% if fantasyTeam.field_name %}
                 <h5>Home Field :{{fantasyTeam.field_name}}</h5>
                 {% else %}
-                <br>
-                {{fantasyForm.field_name.label}}
-                {{ fantasyForm.field_name()}}
-                {% endif %}
-                {% if fantasyTeam.city and fantasyTeam.state %}
+                <br> {{fantasyForm.field_name.label}} {{ fantasyForm.field_name()}} {% endif %} {% if fantasyTeam.city and fantasyTeam.state
+                %}
                 <h5>Location: {{fantasyTeam.city}}, {{fantasyTeam.state}}</h5>
                 {% else %}
-                <br>
-                {{fantasyForm.city.label}}
-                {{ fantasyForm.city()}}
-                <br>
-                {{fantasyForm.state.label}}
-                {{ fantasyForm.state()}}
-                {% endif %}
-                {% if fantasyTeam.conference %}
-                <h5>Conference: <a class="removeUnderline" href="{{ url_for( 'conference', id=fantasyTeam.conference_id) }} ">{{
-                        fantasyTeam.conference.name}}</a></h5>
+                <br> {{fantasyForm.city.label}} {{ fantasyForm.city()}}
+                <br> {{fantasyForm.state.label}} {{ fantasyForm.state()}} {% endif %} {% if fantasyTeam.conference %}
+                <h5>Conference:
+                    <a class="removeUnderline" href="{{ url_for( 'conference', id=fantasyTeam.conference_id) }} ">{{ fantasyTeam.conference.name}}
+                    </a>
+                </h5>
                 {% else %}
-                <br>
-                {{fantasyForm.conference.label}}
+                <br> {{fantasyForm.conference.label}}
 
                 <table>
                     <tr>
@@ -82,8 +63,7 @@
                     <tr>
                         <td>
 
-                            {{ fantasyForm.csrf_token() }}
-                            {{ fantasyForm.submit_attr(class_="commentSubmit btn-default btn")}}
+                            {{ fantasyForm.csrf_token() }} {{ fantasyForm.submit_attr(class_="commentSubmit btn-default btn")}}
 
                         </td>
 

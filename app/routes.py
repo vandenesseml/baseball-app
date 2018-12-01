@@ -184,8 +184,8 @@ def FantasyTeam():
         flash('Your fantasy team profile has been created!')
     if fantasyForm.submit_attr.data:
         if fantasyForm.conference_attr.data:
-            athletes = Athlete.query.filter_by(university_id=1).all()
-        # db.session.commit()
+            # join athlete and university on athlete.university_id == university.id where university.conference_id == the selected conference id
+            athletes = db.session.query(Athlete).join(University).filter(Athlete.university_id==University.id).filter(University.conference_id==fantasyForm.conference_attr.data).all()
     if fantasyForm.add_player.data: 
         athlete=Athlete.query.filter_by(id=fantasyForm.athlete.data).first()
         athlete.fantasy_id=fantasyTeam.id
