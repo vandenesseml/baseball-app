@@ -65,7 +65,8 @@ class FantasyForm(FlaskForm):
     submit_attr = SubmitField('Update', [DataRequired])
     add_player = SubmitField('Add')
     remove_player = SubmitField('Remove')
-    athlete = HiddenField()
+    athlete_add = HiddenField()
+    athlete_remove = HiddenField()
 
     conference_attr = SelectField('Conference', [DataRequired], coerce=int, choices=[(0,'---') ])
     university_attr = SelectField('University', [DataRequired], coerce=int, choices=[(0,'---') ])

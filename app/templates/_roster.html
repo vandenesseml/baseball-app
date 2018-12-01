@@ -1,20 +1,21 @@
 <table class="table">
     <tr>
         <td width="10px">
-            <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete.id) }} ">
-                <img src={{athlete.image_path}} class=athleteSublistImage>
+            <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete_roster.id) }} ">
+                <img src={{athlete_roster.image_path}} class=athleteSublistImage>
             </a>
         </td>
         <td class=universityTable>
             <table class="innerTable">
                 <tr>
                     <td>
-                        <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete.id) }} ">{{athlete.get_full_name()}}</a>
+                        <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete_roster.id) }} ">{{athlete_roster.get_full_name()}}</a>
                         <br>
-                        {{fantasyForm.athlete(value=athlete.id)}}
-                        {{fantasyForm.remove_player(class_="commentSubmitLeft btn-default btn")}}
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {{ fantasyForm.csrf_token() }}
+                            {{fantasyForm.athlete_remove(value=athlete_roster.id)}}
+                            {{fantasyForm.remove_player(class_="commentSubmitLeft btn-default btn")}}
                         </form>
-
                     </td>
 
                 </tr>

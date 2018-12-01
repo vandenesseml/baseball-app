@@ -149,6 +149,7 @@ def conferences():
 @app.route('/fantasy', methods=['GET', 'POST'])
 @login_required
 def FantasyTeam():
+    # SELECT * FROM fantasy WHERE fantasy.user_id = ?
     fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     fantasyForm = FantasyForm()
     global athletes
@@ -160,10 +161,12 @@ def FantasyTeam():
         fantasyForm.conference_attr.choices.append((conference.id, conference.name))
     # conference selected - populate universities
     if fantasyForm.conference_attr.data:
+        # SELECT * FROM university WHERE university.conference_id = ?
         universities = University.query.filter_by(conference_id=fantasyForm.conference_attr.data)
         for university in universities:
             fantasyForm.university_attr.choices.append((university.id, university.name))
     if fantasyForm.university_attr.data and fantasyForm.conference_attr.data:
+        # SELECT * FROM university WHERE university.id = ?
         university=University.query.get(fantasyForm.university_attr.data)
         athlete_ids=[]
         for athlete in university.athletes:
@@ -172,20 +175,18 @@ def FantasyTeam():
         ).filter(Athlete.id.in_(athlete_ids)).group_by(Athlete.country_of_origin).all()
         for university_id, country in countries:
             fantasyForm.country_attr.choices.append((university_id, country))
-    
+        fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     if fantasyForm.submit_attr.data:
         # check if conference has been selected
         if fantasyForm.conference_attr.data:
-            # join athlete and university on athlete.university_id == university.id where university.conference_id == the selected conference id
+            # SELECT * FROM athlete JOIN university ON university.id = athlete.university_id WHERE athlete.university_id = university.id AND university.conference_id = ? ***Complex
             athletes = db.session.query(Athlete).join(University).filter(Athlete.university_id==University.id).filter(University.conference_id==fantasyForm.conference_attr.data).all()
         else:    
             athletes = Athlete.query.all()
         if fantasyForm.university_attr.data:
-            university=University.query.get(fantasyForm.university_attr.data)
-            athlete_ids = []
-            for athlete in university.athletes:
-                athlete_ids.append(athlete.id)
-            athletes = db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids)).all()
+            print(db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id))
+            # SELECT * FROM athlete WHERE athlete.university_id = ?
+            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id).all()
 
     
     if fantasyForm.submit_profile.data:
@@ -211,12 +212,12 @@ def FantasyTeam():
         flash('Your fantasy team profile has been created!')
     
     if fantasyForm.add_player.data: 
-        athlete=Athlete.query.filter_by(id=fantasyForm.athlete.data).first()
+        athlete=Athlete.query.filter_by(id=fantasyForm.athlete_add.data).first()
         athlete.fantasy_id=fantasyTeam.id
         db.session.commit()
         flash('You adde {} to your fantasy team!'.format(athlete.get_full_name()))
     if fantasyForm.remove_player.data: 
-        athlete=Athlete.query.filter_by(id=fantasyForm.athlete.data).first()
+        athlete=Athlete.query.filter_by(id=fantasyForm.athlete_remove.data).first()
         athlete.fantasy_id=''
         db.session.commit()
         flash('You removed {} from your fantasy team!'.format(athlete.get_full_name()))
