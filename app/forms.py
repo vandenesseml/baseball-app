@@ -71,7 +71,7 @@ class FantasyForm(FlaskForm):
     conference_attr = SelectField('Conference', [DataRequired], coerce=int, choices=[(0,'---') ])
     university_attr = SelectField('University', [DataRequired], coerce=int, choices=[(0,'---') ])
     country_attr  = SelectField('Country of Origin', [DataRequired], coerce=int, choices=[(0,'---') ])
-    weight_attr = SelectField('Weight', [DataRequired], coerce=int, choices=[(0,'---'), (1,'140-150'), (2,'151-160'), (3,'161-170'), (4,'171-180'), (5,'181-190'), (6,'191-200'), (7,'201-210'), (8,'211-220'), (8,'221-230'), (9,'231-240'), (10,'241-250'), (11,'251-260'), (12,'261-270'), (13,'271-280'), (14,'281-290'), (15,'291-300')])
+    weight_attr = SelectField('Weight', [DataRequired], coerce=int, choices=[(0,'---'), (1,'140-150'), (2,'151-160'), (3,'161-170'), (4,'171-180'), (5,'181-190'), (6,'191-200'), (7,'201-210'), (8,'211-220'), (9,'221-230'), (10,'231-240'), (11,'241-250'), (12,'251-260'), (13,'261-270'), (14,'271-280'), (15,'281-290'), (16,'291-300')])
     bats_attr  = SelectField('Bats', [DataRequired], coerce=int, choices=[(0,'---'), (1, 'R'), (2, 'L'), (3, 'S')])
     throws_attr  = SelectField('Throws', [DataRequired], coerce=int, choices=[(0,'---'), (1, 'R'), (2, 'L'), (3, 'S')])
     highschool_attr = SelectField('High School', [DataRequired], coerce=int, choices=[(0,'---')])

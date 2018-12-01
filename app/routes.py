@@ -12,6 +12,8 @@ from app.forms import EditProfileForm, FantasyForm, LoginForm, RegistrationForm
 from app.models import Athlete, Conference, Fantasy, Staff, University, User
 from config import Config
 athletes = []
+universities = []
+countries = []
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -87,7 +89,6 @@ def edit_profile():
         if form.photo.data:
             photo = request.files['photo']
             filename = secure_filename(photo.filename)
-            print(filename)
             extension = filename.split('.')[1]
             filename = str(
                 hashlib.md5(filename.split('.')[0].encode()).hexdigest())
@@ -149,12 +150,12 @@ def conferences():
 @app.route('/fantasy', methods=['GET', 'POST'])
 @login_required
 def FantasyTeam():
-    # SELECT * FROM fantasy WHERE fantasy.user_id = ?
+    # SELECT * FROM fantasy WHERE fantasy.user_id = ? 
     fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     fantasyForm = FantasyForm()
     global athletes
-    universities = []
-    countries = []
+    global universities
+    global countries
     conferences = Conference.query.all()
     for conference in conferences:
         fantasyForm.conference.choices.append((conference.id, conference.name))
@@ -165,17 +166,18 @@ def FantasyTeam():
         universities = University.query.filter_by(conference_id=fantasyForm.conference_attr.data)
         for university in universities:
             fantasyForm.university_attr.choices.append((university.id, university.name))
-    if fantasyForm.university_attr.data and fantasyForm.conference_attr.data:
+    if fantasyForm.university_attr.data:
         # SELECT * FROM university WHERE university.id = ?
         university=University.query.get(fantasyForm.university_attr.data)
         athlete_ids=[]
+        print(fantasyForm.weight_attr.data)
         for athlete in university.athletes:
            athlete_ids.append(athlete.id)
+        #  SELECT athlete.university_id AS athlete_university_id, athlete.country_of_origin AS athlete_country_of_origin FROM athlete WHERE athlete.id IN (?, ?) GROUP BY athlete.country_of_origin
         countries = db.session.query(Athlete.university_id, Athlete.country_of_origin
         ).filter(Athlete.id.in_(athlete_ids)).group_by(Athlete.country_of_origin).all()
         for university_id, country in countries:
             fantasyForm.country_attr.choices.append((university_id, country))
-        fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     if fantasyForm.submit_attr.data:
         # check if conference has been selected
         if fantasyForm.conference_attr.data:
@@ -184,9 +186,50 @@ def FantasyTeam():
         else:    
             athletes = Athlete.query.all()
         if fantasyForm.university_attr.data:
-            print(db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id))
             # SELECT * FROM athlete WHERE athlete.university_id = ?
             athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id).all()
+        athlete_ids = []
+        for athlete in athletes:
+            athlete_ids.append(athlete.id)
+        if fantasyForm.weight_attr.data != 0:
+            weight = fantasyForm.weight_attr.data
+            if weight == 1:
+                weight = (140,150)
+            elif weight == 2:
+                weight = (151,160)
+            elif weight == 3:
+                weight = (161,170)
+            elif weight == 4:
+                weight = (171,180)
+            elif weight == 5:
+                weight = (181,190)
+            elif weight == 6:
+                weight = (191,200)
+            elif weight == 7:
+                weight = (201,210)
+            elif weight == 8:
+                weight = (211,220)
+            elif weight == 9:
+                weight = (221,230)
+            elif weight == 10:
+                weight = (231,240)
+            elif weight == 11:
+                weight = (241,250)
+            elif weight == 12:
+                weight = (251,260)
+            elif weight == 13:
+                weight = (261,270)
+            elif weight == 14:
+                weight = (271,280)
+            elif weight == 15:
+                weight = (281,290)
+            elif weight == 16:
+                weight = (291,300)
+        if fantasyForm.bats_attr.data != 0:
+
+        if fantasyForm.throws_attr != 0:
+
+        if fantasyForm.years_attr.data != 0:
 
     
     if fantasyForm.submit_profile.data:
