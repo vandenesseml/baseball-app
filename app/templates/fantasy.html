@@ -61,10 +61,27 @@
         <td>
             <form action="" method="post" enctype="multipart/form-data">
                 {{ fantasyForm.csrf_token() }}
-                {{fantasyForm.conference_attr.label}}
                 <h3>Select Player Attributes</h3>
                 {{ fantasyForm.conference_attr.label}}
-                {{ fantasyForm.conference_attr(**{"onchange":"this.form.submit()"})}}
+                {{ fantasyForm.conference_attr(**{"onchange":"this.form.submit()"} )}}
+                <br>
+                {{ fantasyForm.university_attr.label}}
+                {{ fantasyForm.university_attr(**{"onchange":"this.form.submit()"}) }}
+                <br>
+                {{ fantasyForm.country_attr.label}}
+                {{ fantasyForm.country_attr() }}
+                <br>
+                {{ fantasyForm.weight_attr.label}}
+                {{ fantasyForm.weight_attr() }}
+                <br>
+                {{ fantasyForm.bats_attr.label}}
+                {{ fantasyForm.bats_attr() }}
+                <br>
+                {{ fantasyForm.throws_attr.label}}
+                {{ fantasyForm.throws_attr() }}
+                <br>
+                {{ fantasyForm.years_attr.label}}
+                {{ fantasyForm.years_attr() }}
                 <table>
                     <tr>
                         <td>
