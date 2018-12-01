@@ -10,10 +10,9 @@
                 <tr>
                     <td>
                         <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete.id) }} ">{{athlete.get_full_name()}}</a>
-                        <form action="" method="post" enctype="multipart/form-data">
-                            {{ fantasyForm.csrf_token() }}
-                            {{fantasyForm.athlete(value=athlete.id)}}
-                            {{fantasyForm.remove_player(class_="commentSubmitLeft btn-default btn")}}
+                        <br>
+                        {{fantasyForm.athlete(value=athlete.id)}}
+                        {{fantasyForm.remove_player(class_="commentSubmitLeft btn-default btn")}}
                         </form>
 
                     </td>

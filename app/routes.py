@@ -11,8 +11,7 @@ from app import app, db
 from app.forms import EditProfileForm, FantasyForm, LoginForm, RegistrationForm
 from app.models import Athlete, Conference, Fantasy, Staff, University, User
 from config import Config
-
-
+athletes = []
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -152,7 +151,7 @@ def conferences():
 def FantasyTeam():
     fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     fantasyForm = FantasyForm()
-    athletes = []
+    global athletes
     universities = []
     countries = []
     conferences = Conference.query.all()
@@ -165,15 +164,29 @@ def FantasyTeam():
         for university in universities:
             fantasyForm.university_attr.choices.append((university.id, university.name))
     if fantasyForm.university_attr.data and fantasyForm.conference_attr.data:
-        university_ids = []
-        for university in universities:
-            university_ids.append(university.id)
+        university=University.query.get(fantasyForm.university_attr.data)
+        athlete_ids=[]
+        for athlete in university.athletes:
+           athlete_ids.append(athlete.id)
         countries = db.session.query(Athlete.university_id, Athlete.country_of_origin
-        ).join(University).filter(Athlete.university_id==University.id).filter(University.id.in_(university_ids)).group_by(Athlete.country_of_origin).all()
-        print(countries)
+        ).filter(Athlete.id.in_(athlete_ids)).group_by(Athlete.country_of_origin).all()
         for university_id, country in countries:
             fantasyForm.country_attr.choices.append((university_id, country))
     
+    if fantasyForm.submit_attr.data:
+        # check if conference has been selected
+        if fantasyForm.conference_attr.data:
+            # join athlete and university on athlete.university_id == university.id where university.conference_id == the selected conference id
+            athletes = db.session.query(Athlete).join(University).filter(Athlete.university_id==University.id).filter(University.conference_id==fantasyForm.conference_attr.data).all()
+        else:    
+            athletes = Athlete.query.all()
+        if fantasyForm.university_attr.data:
+            university=University.query.get(fantasyForm.university_attr.data)
+            athlete_ids = []
+            for athlete in university.athletes:
+                athlete_ids.append(athlete.id)
+            athletes = db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids)).all()
+
     
     if fantasyForm.submit_profile.data:
         photo = request.files['teamImage']
@@ -196,10 +209,7 @@ def FantasyTeam():
         fantasyTeam.conference=conference
         db.session.commit() 
         flash('Your fantasy team profile has been created!')
-    if fantasyForm.submit_attr.data:
-        if fantasyForm.conference_attr.data:
-            # join athlete and university on athlete.university_id == university.id where university.conference_id == the selected conference id
-            athletes = db.session.query(Athlete).join(University).filter(Athlete.university_id==University.id).filter(University.conference_id==fantasyForm.conference_attr.data).all()
+    
     if fantasyForm.add_player.data: 
         athlete=Athlete.query.filter_by(id=fantasyForm.athlete.data).first()
         athlete.fantasy_id=fantasyTeam.id
