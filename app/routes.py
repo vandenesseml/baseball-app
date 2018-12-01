@@ -153,6 +153,8 @@ def FantasyTeam():
     fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     fantasyForm = FantasyForm()
     athletes = []
+    universities = []
+    countries = []
     conferences = Conference.query.all()
     for conference in conferences:
         fantasyForm.conference.choices.append((conference.id, conference.name))
@@ -162,6 +164,16 @@ def FantasyTeam():
         universities = University.query.filter_by(conference_id=fantasyForm.conference_attr.data)
         for university in universities:
             fantasyForm.university_attr.choices.append((university.id, university.name))
+    if fantasyForm.university_attr.data and fantasyForm.conference_attr.data:
+        university_ids = []
+        for university in universities:
+            university_ids.append(university.id)
+        countries = db.session.query(Athlete.university_id, Athlete.country_of_origin
+        ).join(University).filter(Athlete.university_id==University.id).filter(University.id.in_(university_ids)).group_by(Athlete.country_of_origin).all()
+        print(countries)
+        for university_id, country in countries:
+            fantasyForm.country_attr.choices.append((university_id, country))
+    
     
     if fantasyForm.submit_profile.data:
         photo = request.files['teamImage']
