@@ -1,5 +1,8 @@
 runtime: python
 env: flex
 entrypoint: gunicorn -b localhost:8080 -w 4 baseball:app
+libraries:
+    -name: MySqldb
+    version: "5.7.14"
 runtime_config:
     python_version: 3
