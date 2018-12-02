@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(120))
     last_name = db.Column(db.String(120))
     full_name = db.Column(db.String(240))
+    fantasy = db.relationship('Fantasy', backref='user', lazy='dynamic')
 
     def edit_profile_image(self, image_path):
         self.image_path = image_path
@@ -49,6 +50,7 @@ class Athlete(db.Model):
     scholarship_amount = db.Column(db.Integer)
     country_of_origin = db.Column(db.String(120))
     university_id = db.Column(db.Integer, db.ForeignKey('university.id'))
+    fantasy_id = db.Column(db.Integer, db.ForeignKey('fantasy.id'))
     image_path = db.Column(db.String(1000))
     weight = db.Column(db.Integer)
     height = db.Column(db.String(20))
@@ -104,6 +106,7 @@ class Staff(db.Model):
     start_date = db.Column(db.String(11))
     job_title = db.Column(db.String(120))
     university_id = db.Column(db.Integer, db.ForeignKey('university.id'))
+    # fantasy_id = db.Column(db.Integer, db.ForeignKey('fantasy.id'))
     image_path = db.Column(db.String(1000))
 
     def get_age(self):
@@ -127,12 +130,29 @@ class Staff(db.Model):
         return '<Staff {}>'.format(self.get_full_name())
 
 
+class Fantasy(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    team_name = db.Column(db.String(120))
+    image_path = db.Column(db.String(1000))
+    city = db.Column(db.String(120))
+    state = db.Column(db.String(120))
+    mascot = db.Column(db.String(120))
+    field_name = db.Column(db.String(120))
+    athletes = db.relationship(
+        'Athlete', backref='fantasy', lazy='dynamic')
+    # staff = db.relationship('Staff', backref='fantasy', lazy='dynamic')
+    conference_id = db.Column(db.Integer, db.ForeignKey('conference.id'))
+
+
 class Conference(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
     universities = db.relationship(
         'University', backref='conference', lazy='dynamic')
     image_path = db.Column(db.String(1000))
+    fantasy_id = db.relationship(
+        'Fantasy', backref='conference', lazy='dynamic')
 
     def __repr__(self):
         return '<Conference {}>'.format(self.name)

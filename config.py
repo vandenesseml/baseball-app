@@ -14,5 +14,7 @@ class Config(object):
     POST_IMAGE_ACCESS_PATH = '/static/uploads/post/'
     PROFILE_IMAGE_UPLOAD_FOLDER = './app/static/uploads/profile/'
     PROFILE_IMAGE_ACCESS_PATH = '/static/uploads/profile/'
+    FANTASY_TEAM_IMAGE_UPLOAD_FOLDER = './app/static/uploads/fantasy'
+    FANTASY_TEAM_IMAGE_ACCESS_PATH = '/static/uploads/fantasy/'
     POSTS_PER_PAGE = 10
     COMMENTS_PER_POST = 5

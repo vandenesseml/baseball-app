@@ -17,6 +17,19 @@ create table user (
     full_name           varchar(140)
 );
 
+-- fanasy table
+create table fantasy (
+    id                  int             primary key,
+    user_id             int             references user(id),
+    team_name           varchar(120),
+    image_path          varchar(120),
+    city                varchar(120),
+    state               varchar(120),
+    mascot              varchar(120),
+    field_name          varchar(120),
+    conference_id       int             references conference(id)
+);
+
 -- conference table
 create table conference (
     id int primary key,
@@ -49,6 +62,7 @@ create table athlete (
     scholarship_amount  decimal(8,2),
     country_of_origin   varchar(120),
     university_id       int            references unversity(id),
+    fantasy_id          int            references fantasy(id),
     image_path          varchar(120),
     weight              decimal(5,2),                                       -- this is all in pounds (187.56 pounds)
     height              varchar(20),                                        -- what is the formatting for this?
@@ -81,17 +95,6 @@ create table pitcher_career (
     strikeouts          int
 );
 
--- pitcher season table (not used)
--- create table pitcher_season (
---     athlete_id          int             references athlete(id),
---     season              int,                                                -- this is just the year
---     appearances         int,
---     innings_thrown      int,
---     runs_allowed        int,
---     earned_run_average  int,
---     strikeouts          int
--- );
-
 -- postion player career table
 create table position_player_career (
     athlete_id          int             references athlete(id),
@@ -105,18 +108,3 @@ create table position_player_career (
     home_runs           int,
     batting_average     decimal(4,3)
 );
-
--- postion player season table
--- create table position_player_season (
---     athlete_id          int             references athlete(id),
---     season              int,                                    -- this is just the year
---     games_played        int,
---     innings_played      int,
---     at_bats             int,
---     hits                int,
---     walks               int,
---     runs_scored         int,
---     runs_batted_in      int,
---     home_runs           int,
---     batting_average     decimal(4,3)
--- );

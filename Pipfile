@@ -14,6 +14,11 @@ gunicorn = "*"
 
 [dev-packages]
 pylint = "*"
+<<<<<<< HEAD
+=======
+yapf = "*"
+"autopep8" = "*"
+>>>>>>> 9e9b3cf79bddaebcd50b2e65e4eb5b525982ebc5
 
 [requires]
 python_version = "3.7"

@@ -1,0 +1,32 @@
+{% if not athlete.fantasy_id %}
+<table class="table">
+    <tr>
+        <td width="10px">
+            <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete.id) }} ">
+                <img src={{athlete.image_path}} class=athleteSublistImage>
+            </a>
+        </td>
+        <td class=universityTable>
+            <table class="innerTable">
+                <tr>
+                    <td>
+
+                        <a class="removeUnderline" href="{{ url_for( 'athlete', id=athlete.id) }} ">{{athlete.get_full_name()}}</a>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {{ fantasyForm.csrf_token() }}
+
+                            {{fantasyForm.athlete(value=athlete.id)}}
+                            {{fantasyForm.add_player(class_="commentSubmit_left btn-default btn")}}
+
+                        </form>
+
+                    </td>
+
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+
+</table>
+{% endif %}

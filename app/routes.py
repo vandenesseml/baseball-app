@@ -8,8 +8,8 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 
 from app import app, db
-from app.forms import EditProfileForm, LoginForm, RegistrationForm
-from app.models import Athlete, Conference, Staff, University, User
+from app.forms import EditProfileForm, FantasyForm, LoginForm, RegistrationForm
+from app.models import Athlete, Conference, Fantasy, Staff, University, User
 from config import Config
 
 
@@ -145,3 +145,73 @@ def conferences():
     conferences = Conference.query.all()
     return render_template(
         'conferences.html', conferences=conferences, title='Conferences')
+
+
+@app.route('/fantasy', methods=['GET', 'POST'])
+@login_required
+def FantasyTeam():
+    fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
+    fantasyForm = FantasyForm()
+    athletes = []
+    universities = []
+    countries = []
+    conferences = Conference.query.all()
+    for conference in conferences:
+        fantasyForm.conference.choices.append((conference.id, conference.name))
+        fantasyForm.conference_attr.choices.append((conference.id, conference.name))
+    # conference selected - populate universities
+    if fantasyForm.conference_attr.data:
+        universities = University.query.filter_by(conference_id=fantasyForm.conference_attr.data)
+        for university in universities:
+            fantasyForm.university_attr.choices.append((university.id, university.name))
+    if fantasyForm.university_attr.data and fantasyForm.conference_attr.data:
+        university_ids = []
+        for university in universities:
+            university_ids.append(university.id)
+        countries = db.session.query(Athlete.university_id, Athlete.country_of_origin
+        ).join(University).filter(Athlete.university_id==University.id).filter(University.id.in_(university_ids)).group_by(Athlete.country_of_origin).all()
+        print(countries)
+        for university_id, country in countries:
+            fantasyForm.country_attr.choices.append((university_id, country))
+    
+    
+    if fantasyForm.submit_profile.data:
+        photo = request.files['teamImage']
+        filename = secure_filename(photo.filename)
+        extension = filename.split('.')[1]
+        filename = str(
+            hashlib.md5(filename.split('.')[0].encode()).hexdigest())
+        filename = filename + '.' + extension
+        photo.save(
+            os.path.join(Config.FANTASY_TEAM_IMAGE_UPLOAD_FOLDER, filename))
+        fantasyTeam.image_path = os.path.join(
+            Config.FANTASY_TEAM_IMAGE_ACCESS_PATH, filename)
+        fantasyTeam.team_name=fantasyForm.team_name.data
+        fantasyTeam.mascot=fantasyForm.mascot.data
+        fantasyTeam.field_name=fantasyForm.field_name.data
+        fantasyTeam.city=fantasyForm.city.data
+        fantasyTeam.state=fantasyForm.state.data
+        id = fantasyForm.conference.data
+        conference = Conference.query.filter_by(id=id).first()
+        fantasyTeam.conference=conference
+        db.session.commit() 
+        flash('Your fantasy team profile has been created!')
+    if fantasyForm.submit_attr.data:
+        if fantasyForm.conference_attr.data:
+            # join athlete and university on athlete.university_id == university.id where university.conference_id == the selected conference id
+            athletes = db.session.query(Athlete).join(University).filter(Athlete.university_id==University.id).filter(University.conference_id==fantasyForm.conference_attr.data).all()
+    if fantasyForm.add_player.data: 
+        athlete=Athlete.query.filter_by(id=fantasyForm.athlete.data).first()
+        athlete.fantasy_id=fantasyTeam.id
+        db.session.commit()
+        flash('You adde {} to your fantasy team!'.format(athlete.get_full_name()))
+    if fantasyForm.remove_player.data: 
+        athlete=Athlete.query.filter_by(id=fantasyForm.athlete.data).first()
+        athlete.fantasy_id=''
+        db.session.commit()
+        flash('You removed {} from your fantasy team!'.format(athlete.get_full_name()))
+    return render_template(
+        'fantasy.html',
+        title='Fantasy Team',
+        fantasyTeam=fantasyTeam,
+        fantasyForm=fantasyForm, athletes=athletes)
