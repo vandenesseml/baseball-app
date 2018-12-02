@@ -13,7 +13,7 @@ from app.forms import EditProfileForm, FantasyForm, LoginForm, RegistrationForm
 from app.models import Athlete, Conference, Fantasy, Staff, University, User
 from config import Config
 athletes, universities, countries = [], [], []
-conference_choice, university_choice, country_choice, bats_choice, throws_choice, years_choice = '', '', '', '', '', '' 
+conference_choice, university_choice, country_choice, bats_choice, throws_choice, years_choice, athlete_weight = '', '', '', '', '', '', '' 
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -153,7 +153,7 @@ def FantasyTeam():
     # SELECT * FROM fantasy WHERE fantasy.user_id = ? 
     fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
     fantasyForm = FantasyForm()
-    global athletes, countries, universities, conference_choice, university_choice, country_choice, bats_choice, throws_choice, years_choice
+    global athletes, countries, universities, conference_choice, university_choice, country_choice, bats_choice, throws_choice, years_choice, athlete_weight
     conferences = Conference.query.all()
     for conference in conferences:
         fantasyForm.conference.choices.append((conference.id, conference.name))
@@ -210,12 +210,12 @@ def FantasyTeam():
             db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids)).all()
         elif str(fantasyForm.bats_attr.data) != 'None' and str(fantasyForm.bats_attr.data) != '0':
             print(3, fantasyForm.bats_attr.data) 
-            db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids)).all()
+            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max'], Athlete.bats == fantasyForm.bats_attr.data).all()
         elif str(fantasyForm.weight_attr.data) != 'None' and str(fantasyForm.weight_attr.data) != '0':
             print(4)
-            weight = json.loads(fantasyForm.weight_attr.data.replace('\'','\"'))
-            print(weight)
-            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= weight['min'], Athlete.weight <= weight['max']).all()
+            athlete_weight = json.loads(fantasyForm.weight_attr.data.replace('\'','\"'))
+            print(athlete_weight)
+            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max']).all()
 
             
         elif str(fantasyForm.country_attr.data) != 'None' and str(fantasyForm.country_attr.data) != '0':
