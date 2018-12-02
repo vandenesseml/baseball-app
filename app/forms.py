@@ -70,10 +70,10 @@ class FantasyForm(FlaskForm):
 
     conference_attr = SelectField('Conference', [DataRequired], coerce=int, choices=[(0,'---') ])
     university_attr = SelectField('University', [DataRequired], coerce=int, choices=[(0,'---') ])
-    country_attr  = SelectField('Country of Origin', [DataRequired], coerce=int, choices=[(0,'---') ])
-    weight_attr = SelectField('Weight', [DataRequired], coerce=int, choices=[(0,'---'), (1,'140-150'), (2,'151-160'), (3,'161-170'), (4,'171-180'), (5,'181-190'), (6,'191-200'), (7,'201-210'), (8,'211-220'), (9,'221-230'), (10,'231-240'), (11,'241-250'), (12,'251-260'), (13,'261-270'), (14,'271-280'), (15,'281-290'), (16,'291-300')])
-    bats_attr  = SelectField('Bats', [DataRequired], coerce=int, choices=[(0,'---'), (1, 'R'), (2, 'L'), (3, 'S')])
-    throws_attr  = SelectField('Throws', [DataRequired], coerce=int, choices=[(0,'---'), (1, 'R'), (2, 'L'), (3, 'S')])
+    country_attr  = SelectField('Country of Origin', [DataRequired], choices=[(0,'---') ])
+    weight_attr = SelectField('Weight', [DataRequired], choices=[(0,'---'), ((140,150),'140-150'), ((151,160),'151-160'), ((161,170),'161-170'), ((171,180),'171-180'), ((181,190),'181-190'), ((191,200),'191-200'), ((201,210),'201-210'), ((211,220),'211-220'), ((221,230),'221-230'), ((231,240),'231-240'), ((241,250),'241-250'), ((251,260),'251-260'), ((261,270),'261-270'), ((271,280),'271-280'), ((281,290),'281-290'), ((291,300),'291-300')])
+    bats_attr  = SelectField('Bats', [DataRequired], choices=[(0,'---'), ('R', 'R'), ('L', 'L'), ('S', 'S')])
+    throws_attr  = SelectField('Throws', [DataRequired], choices=[(0,'---'), ('R', 'R'), ('L', 'L'), ('S', 'S')])
     highschool_attr = SelectField('High School', [DataRequired], coerce=int, choices=[(0,'---')])
     years_attr  = SelectField('Years Played', [DataRequired], coerce=int, choices=[(0,'---'), (1, '1'), (2, '2'), (3, '3'), (4, '4')])
 

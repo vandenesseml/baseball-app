@@ -53,14 +53,11 @@
     {{ fantasyForm.csrf_token() }}
     <table class="table body">
         <tr>
-
             <td>
                 <h3>Team Roster</h3>
                 {% for athlete_roster in fantasyTeam.athletes %} {% include '_roster.html' %} {% endfor %}
             </td>
-
             <td>
-
                 <h3>Select Player Attributes</h3>
                 {{ fantasyForm.conference_attr.label}}
                 {{ fantasyForm.conference_attr(**{"onchange":"this.form.submit()"} )}}
@@ -69,29 +66,37 @@
                 {{ fantasyForm.university_attr.label}}
                 {{ fantasyForm.university_attr(**{"onchange":"this.form.submit()"}) }}
                 {% endif %}
-                {% if fantasyForm.university_attr.data %}
+                {% if fantasyForm.university_attr.data and fantasyForm.university_attr.data != '0' %}
                 <br>
                 {{ fantasyForm.country_attr.label}}
-                {{ fantasyForm.country_attr() }}
-
+                {{ fantasyForm.country_attr(**{"onchange":"this.form.submit()"}) }}
+                {% endif %}
+                {% if fantasyForm.country_attr.data != 'None' and fantasyForm.country_attr.data != '0' %}
                 <br>
                 {{ fantasyForm.weight_attr.label}}
-                {{ fantasyForm.weight_attr() }}
+                {{ fantasyForm.weight_attr(**{"onchange":"this.form.submit()"}) }}
+                {% endif %}
+                {% if fantasyForm.weight_attr.data != 'None' and fantasyForm.weight_attr.data != '0' %}
                 <br>
                 {{ fantasyForm.bats_attr.label}}
-                {{ fantasyForm.bats_attr() }}
+                {{ fantasyForm.bats_attr(**{"onchange":"this.form.submit()"}) }}
+                {% endif %}
+                {% if fantasyForm.bats_attr.data != 'None' and fantasyForm.bats_attr.data != '0' %}
                 <br>
                 {{ fantasyForm.throws_attr.label}}
-                {{ fantasyForm.throws_attr() }}
+                {{ fantasyForm.throws_attr(**{"onchange":"this.form.submit()"}) }}
+                {% endif %}
+                {% if fantasyForm.throws_attr.data != 'None' and fantasyForm.throws_attr != '0' %}
                 <br>
                 {{ fantasyForm.years_attr.label}}
-                {{ fantasyForm.years_attr() }}
+                {{ fantasyForm.years_attr(**{"onchange":"this.form.submit()"}) }}
                 {% endif %}
                 <table>
                     <tr>
                         <td>
-
+                            {% if fantasyForm.conference_attr.data %}
                             {{ fantasyForm.submit_attr(class_="commentSubmit btn-default btn")}}
+                            {% endif %}
 
                         </td>
 
