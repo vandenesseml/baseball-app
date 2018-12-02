@@ -226,11 +226,11 @@ def FantasyTeam():
             elif weight == 16:
                 weight = (291,300)
         if fantasyForm.bats_attr.data != 0:
-
+            print("")
         if fantasyForm.throws_attr != 0:
-
+            print("")
         if fantasyForm.years_attr.data != 0:
-
+            print("")
     
     if fantasyForm.submit_profile.data:
         photo = request.files['teamImage']
