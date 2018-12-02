@@ -14,11 +14,14 @@ from app.models import Athlete, Conference, Fantasy, Staff, University, User
 from config import Config
 athletes, universities, countries = [], [], []
 conference_choice, university_choice, country_choice, bats_choice, throws_choice, years_choice, athlete_weight = '', '', '', '', '', '', '' 
+
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-    return render_template("index.html")
+    # SELECT * FROM fantasy WHERE fantasy.user_id = ?
+    fantasy_team= db.session.query(Fantasy).filter(Fantasy.user_id==current_user.id).first()
+    return render_template("index.html", fantasy_team=fantasy_team)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -27,7 +30,8 @@ def login():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = db.session.query(User).filter(User.username==form.username.data).first()
+        
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
@@ -68,7 +72,7 @@ def register():
 @app.route('/user/<username>')
 @login_required
 def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
+    user = db.session.query(User).filter(User.username==username).first_or_404()
     return render_template('user.html', user=user, title=user.full_name)
 
 
@@ -110,7 +114,7 @@ def edit_profile():
 @app.route('/athlete/<id>')
 @login_required
 def athlete(id):
-    athlete = Athlete.query.filter_by(id=id).first_or_404()
+    athlete = db.session.query(Athlete).filter(Athlete.id==id).first_or_404()
     return render_template(
         'athlete.html', athlete=athlete, title=athlete.get_full_name())
 
@@ -118,7 +122,7 @@ def athlete(id):
 @app.route('/university/<id>')
 @login_required
 def university(id):
-    university = University.query.filter_by(id=id).first_or_404()
+    university = db.session.query(University).filter(University.id==id).first_or_404()
     return render_template(
         'university.html', university=university, title=university.name)
 
@@ -126,7 +130,7 @@ def university(id):
 @app.route('/staff/<id>')
 @login_required
 def staff(id):
-    staff = Staff.query.filter_by(id=id).first_or_404()
+    staff = db.session.query(Staff).filter(Staff.id==id).first_or_404()
     return render_template(
         'staff.html', staff=staff, title=staff.get_full_name())
 
@@ -134,7 +138,7 @@ def staff(id):
 @app.route('/conference/<id>')
 @login_required
 def conference(id):
-    conference = Conference.query.filter_by(id=id).first_or_404()
+    conference = db.session.query(Conference).filter(Conference.id==id).first_or_404()
     return render_template(
         'conference.html', conference=conference, title=conference.name)
 
@@ -151,7 +155,7 @@ def conferences():
 @login_required
 def FantasyTeam():
     # SELECT * FROM fantasy WHERE fantasy.user_id = ? 
-    fantasyTeam = Fantasy.query.filter_by(user_id=current_user.id).first()
+    fantasyTeam = db.session.query(Fantasy).filter(Fantasy.user_id==current_user.id).first()
     fantasyForm = FantasyForm()
     global athletes, countries, universities, conference_choice, university_choice, country_choice, bats_choice, throws_choice, years_choice, athlete_weight
     conferences = Conference.query.all()
@@ -165,7 +169,7 @@ def FantasyTeam():
         conference_choice = copy.copy(fantasyForm.conference_attr.data)
         print('c****',conference_choice)
         # SELECT * FROM university WHERE university.conference_id = ?
-        universities = University.query.filter_by(conference_id=fantasyForm.conference_attr.data)
+        universities = db.session.query(University).filter(University.conference_id==fantasyForm.conference_attr.data)
         university_ids = [] 
         for university in universities:
             fantasyForm.university_attr.choices.append((university.id, university.name))
@@ -175,7 +179,7 @@ def FantasyTeam():
         university_choice = copy.copy(fantasyForm.university_attr.data)
         print(university_choice)
         # SELECT * FROM university WHERE university.id = ?
-        university=University.query.get(fantasyForm.university_attr.data)
+        university=db.session.query(University).filter(University.id==fantasyForm.university_attr.data).first()
         athlete_ids=[]
         for athlete in university.athletes:
            athlete_ids.append(athlete.id)
@@ -237,18 +241,18 @@ def FantasyTeam():
         fantasyTeam.city=fantasyForm.city.data
         fantasyTeam.state=fantasyForm.state.data
         id = fantasyForm.conference.data
-        conference = Conference.query.filter_by(id=id).first()
+        conference = db.session.query(Conference).filter(Conference.id==id).first()
         fantasyTeam.conference=conference
         db.session.commit() 
         flash('Your fantasy team profile has been created!')
     
     if fantasyForm.add_player.data: 
-        athlete=Athlete.query.filter_by(id=fantasyForm.athlete_add.data).first()
+        athlete=db.session.query(Athlete).filter(Athlete.id==fantasyForm.athlete_add.data).first()
         athlete.fantasy_id=fantasyTeam.id
         db.session.commit()
         flash('You adde {} to your fantasy team!'.format(athlete.get_full_name()))
     if fantasyForm.remove_player.data: 
-        athlete=Athlete.query.filter_by(id=fantasyForm.athlete_remove.data).first()
+        athlete=db.session.query(Athlete).filter(Athlete.id==fantasyForm.athlete_remove.data).first()
         athlete.fantasy_id=''
         db.session.commit()
         flash('You removed {} from your fantasy team!'.format(athlete.get_full_name()))

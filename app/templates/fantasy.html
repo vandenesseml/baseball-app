@@ -71,17 +71,17 @@
                 {{ fantasyForm.country_attr.label}}
                 {{ fantasyForm.country_attr(**{"onchange":"this.form.submit()"}) }}
                 {% endif %}
-                {% if fantasyForm.country_attr.data != 'None' and fantasyForm.country_attr.data != '0' %}
+                {% if fantasyForm.country_attr.data != 'None' %}
                 <br>
                 {{ fantasyForm.weight_attr.label}}
                 {{ fantasyForm.weight_attr(**{"onchange":"this.form.submit()"}) }}
                 {% endif %}
-                {% if fantasyForm.weight_attr.data != 'None' and fantasyForm.weight_attr.data != '0' %}
+                {% if fantasyForm.weight_attr.data != 'None' %}
                 <br>
                 {{ fantasyForm.bats_attr.label}}
                 {{ fantasyForm.bats_attr(**{"onchange":"this.form.submit()"}) }}
                 {% endif %}
-                {% if fantasyForm.bats_attr.data != 'None' and fantasyForm.bats_attr.data != '0' %}
+                {% if fantasyForm.bats_attr.data != 'None' %}
                 <br>
                 {{ fantasyForm.throws_attr.label}}
                 {{ fantasyForm.throws_attr(**{"onchange":"this.form.submit()"}) }}
