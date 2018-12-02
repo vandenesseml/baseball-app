@@ -86,11 +86,7 @@
                 {{ fantasyForm.throws_attr.label}}
                 {{ fantasyForm.throws_attr(**{"onchange":"this.form.submit()"}) }}
                 {% endif %}
-                {% if fantasyForm.throws_attr.data != 'None' and fantasyForm.throws_attr != '0' %}
-                <br>
-                {{ fantasyForm.years_attr.label}}
-                {{ fantasyForm.years_attr(**{"onchange":"this.form.submit()"}) }}
-                {% endif %}
+
                 <table>
                     <tr>
                         <td>
