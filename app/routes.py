@@ -215,8 +215,8 @@ def FantasyTeam():
             print(4, fantasyForm.throws_attr.data)
             db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids)).all()
         elif str(fantasyForm.country_attr.data) != 'None' and str(fantasyForm.country_attr.data) != '0':
-            print(5, fantasyForm.country_attr.data)
-            db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids).filter(Athlete.country_of_origin==fantasyForm.country_attr.data)).all()
+            # SELECT * FROM athlete WHERE athlete.country_of_origin = ?
+            athletes = db.session.query(Athlete).filter(Athlete.country_of_origin==fantasyForm.country_attr.data and Athlete.id.in_(athlete_ids)).all()
 
 
 
