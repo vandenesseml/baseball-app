@@ -2,7 +2,7 @@ import hashlib
 import os
 from datetime import datetime
 import copy
-
+import json
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
@@ -209,14 +209,19 @@ def FantasyTeam():
             print(2, fantasyForm.throws_attr.data)
             db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids)).all()
         elif str(fantasyForm.bats_attr.data) != 'None' and str(fantasyForm.bats_attr.data) != '0':
-            print(3, fantasyForm.throws_attr.data) 
+            print(3, fantasyForm.bats_attr.data) 
             db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids)).all()
         elif str(fantasyForm.weight_attr.data) != 'None' and str(fantasyForm.weight_attr.data) != '0':
-            print(4, fantasyForm.throws_attr.data)
-            db.session.query(Athlete).filter(Athlete.id.in_(athlete_ids)).all()
+            print(4)
+            weight = json.loads(fantasyForm.weight_attr.data.replace('\'','\"'))
+            print(weight)
+            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= weight['min'], Athlete.weight <= weight['max']).all()
+
+            
         elif str(fantasyForm.country_attr.data) != 'None' and str(fantasyForm.country_attr.data) != '0':
-            # SELECT * FROM athlete WHERE athlete.country_of_origin = ?
-            athletes = db.session.query(Athlete).filter(Athlete.country_of_origin==fantasyForm.country_attr.data and Athlete.id.in_(athlete_ids)).all()
+            print(5)
+            # SELECT * FROM athlete WHERE athlete.country_of_origin AND athlete.id IN (VALUES) = ?
+            athletes = db.session.query(Athlete).filter(Athlete.country_of_origin==fantasyForm.country_attr.data and (Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id)).all()
 
 
 
