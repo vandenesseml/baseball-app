@@ -106,7 +106,6 @@ class Staff(db.Model):
     start_date = db.Column(db.String(11))
     job_title = db.Column(db.String(120))
     university_id = db.Column(db.Integer, db.ForeignKey('university.id'))
-    # fantasy_id = db.Column(db.Integer, db.ForeignKey('fantasy.id'))
     image_path = db.Column(db.String(1000))
 
     def get_age(self):
@@ -156,6 +155,28 @@ class Conference(db.Model):
 
     def __repr__(self):
         return '<Conference {}>'.format(self.name)
+
+class PitcherCareerStats(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    athlete_id = db.Column(db.Integer, db.ForeignKey('athlete.id'))
+    appearances = db.Column(db.Integer)
+    innings_thrown = db.Column(db.Integer)
+    runs_allowed = db.Column(db.Integer)
+    earned_run_average = db.Column(db.Integer)
+    strikeouts = db.Column(db.Integer)
+
+class PositionPlayerCareerStats(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    athlete_id = db.Column(db.Integer, db.ForeignKey('athlete.id'))
+    games_played = db.Column(db.Integer)
+    innings_played = db.Column(db.Integer)
+    at_bats = db.Column(db.Integer)
+    hits = db.Column(db.Integer)
+    walks = db.Column(db.Integer)
+    runs_scored = db.Column(db.Integer)
+    runs_batted_in = db.Column(db.Integer)
+    home_runs  = db.Column(db.Integer)
+    batting_average = db.Column(db.Integer)
 
 
 @login.user_loader

@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 
 from app import app, db
 from app.forms import EditProfileForm, FantasyForm, LoginForm, RegistrationForm
-from app.models import Athlete, Conference, Fantasy, Staff, University, User
+from app.models import Athlete, Conference, Fantasy, Staff, University, User, PitcherCareerStats, PositionPlayerCareerStats
 from config import Config
 athletes, universities, countries = [], [], []
 conference_choice, university_choice, country_choice, bats_choice, throws_choice, years_choice, athlete_weight = '', '', '', '', '', '', '' 
