@@ -78,6 +78,11 @@
                 {% endif %}
                 {% if fantasyForm.weight_attr.data != 'None' %}
                 <br>
+                {{ fantasyForm.position_attr.label}}
+                {{ fantasyForm.position_attr(**{"onchange":"this.form.submit()"}) }}
+                {% endif %}
+                {% if fantasyForm.position_attr.data != 'None' %}
+                <br>
                 {{ fantasyForm.bats_attr.label}}
                 {{ fantasyForm.bats_attr(**{"onchange":"this.form.submit()"}) }}
                 {% endif %}
@@ -86,6 +91,51 @@
                 {{ fantasyForm.throws_attr.label}}
                 {{ fantasyForm.throws_attr(**{"onchange":"this.form.submit()"}) }}
                 {% endif %}
+
+                <h4>Pitcher Stats</h4>
+                {{ fantasyForm.appearances.label}}
+                {{ fantasyForm.appearances() }}
+                <br>
+                {{ fantasyForm.innings_thrown.label}}
+                {{ fantasyForm.innings_thrown() }}
+                <br>
+                {{ fantasyForm.runs_allowed.label}}
+                {{ fantasyForm.runs_allowed() }}
+                <br>
+                {{ fantasyForm.earned_run_average.label}}
+                {{ fantasyForm.earned_run_average() }}
+                <br>
+                {{ fantasyForm.strikeouts.label}}
+                {{ fantasyForm.strikeouts() }}
+
+                <h4>Position Player Stats</h4>
+                {{ fantasyForm.games_played.label}}
+                {{ fantasyForm.games_played() }}
+                <br>
+                {{ fantasyForm.innings_played.label}}
+                {{ fantasyForm.innings_played() }}
+                <br>
+                {{ fantasyForm.at_bats.label}}
+                {{ fantasyForm.at_bats() }}
+                <br>
+                {{ fantasyForm.hits.label}}
+                {{ fantasyForm.hits() }}
+                <br>
+                {{ fantasyForm.walks.label}}
+                {{ fantasyForm.walks() }}
+                <br>
+                {{ fantasyForm.runs_scored.label}}
+                {{ fantasyForm.runs_scored() }}
+                <br>
+                {{ fantasyForm.runs_batted_in.label}}
+                {{ fantasyForm.runs_batted_in() }}
+                <br>
+                {{ fantasyForm.home_runs.label}}
+                {{ fantasyForm.home_runs() }}
+                <br>
+                {{ fantasyForm.batting_average.label}}
+                {{ fantasyForm.batting_average() }}
+
 
                 <table>
                     <tr>

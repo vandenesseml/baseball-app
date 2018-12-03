@@ -115,8 +115,11 @@ def edit_profile():
 @login_required
 def athlete(id):
     athlete = db.session.query(Athlete).filter(Athlete.id==id).first_or_404()
+    stats = db.session.query(PositionPlayerCareerStats).filter(PositionPlayerCareerStats.athlete_id==athlete.id).first()
+    if not stats:
+        stats = db.session.query(PitcherCareerStats).filter(PitcherCareerStats.athlete_id==athlete.id).first()
     return render_template(
-        'athlete.html', athlete=athlete, title=athlete.get_full_name())
+        'athlete.html', athlete=athlete, stats=stats, title=athlete.get_full_name())
 
 
 @app.route('/university/<id>')
@@ -206,21 +209,39 @@ def FantasyTeam():
         for athlete in athletes:
             athlete_ids.append(athlete.id)
 
-
+# build query Strings 
+        query  = ''
         if str(fantasyForm.throws_attr.data) != 'None' and str(fantasyForm.throws_attr.data) != '0':
-            # SELECT * FROM athlete WHERE athlete.university_id = ? AND athlete.country_of_origin = ?, AND athlete.bats = ?, AND athlete.weight >= ?, AND athlete.weight <= ?, AND athlete.throws= ?
-            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max'], Athlete.bats == fantasyForm.bats_attr.data,  Athlete.throws == fantasyForm.throws_attr.data).all()
-        elif str(fantasyForm.bats_attr.data) != 'None' and str(fantasyForm.bats_attr.data) != '0':
-            # SELECT * FROM athlete WHERE athlete.university_id = ? AND athlete.country_of_origin = ?, AND athlete.weight >= ?, AND athlete.weight <= ?, AND athlete.bats = ?
-            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max'], Athlete.bats == fantasyForm.bats_attr.data).all()
-        elif str(fantasyForm.weight_attr.data) != 'None' and str(fantasyForm.weight_attr.data) != '0':
+            athlete_weight = json.loads(fantasyForm.weight_attr.data.replace('\'','\"'))
+            # SELECT * FROM athlete WHERE athlete.university_id = ? AND athlete.country_of_origin = ?, AND athlete.weight >= ?, AND athlete.weight <= ?, AND athlete.position = ?,  AND athlete.bats = ?, AND athlete.throws= ?
+            # athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max'], Athlete.position == fantasyForm.position_attr.data, Athlete.bats == fantasyForm.bats_attr.data,  Athlete.throws == fantasyForm.throws_attr.data).all()
+            query = query + 'Athlete.throws == fantasyForm.throws_attr.data,'
+        if str(fantasyForm.bats_attr.data) != 'None' and str(fantasyForm.bats_attr.data) != '0':
+            athlete_weight = json.loads(fantasyForm.weight_attr.data.replace('\'','\"'))
+            # SELECT * FROM athlete WHERE athlete.university_id = ? AND athlete.country_of_origin = ?, AND athlete.weight >= ?, AND athlete.weight <= ?, AND athlete.position = ?, AND athlete.bats = ?
+            # athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max'], Athlete.position == fantasyForm.position_attr.data, Athlete.bats == fantasyForm.bats_attr.data).all()
+            query = query + 'Athlete.bats == fantasyForm.bats_attr.data,'
+        if str(fantasyForm.position_attr.data) != 'None' and str(fantasyForm.position_attr.data) != '0':
+            athlete_weight = json.loads(fantasyForm.weight_attr.data.replace('\'','\"'))
+            # SELECT * FROM athlete WHERE athlete.university_id = ? AND athlete.country_of_origin = ?, AND athlete.weight >= ?, AND athlete.weight <= ?, AND athlete.position = ?
+            # athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max'], Athlete.position == fantasyForm.position_attr.data).all()
+            query = query + 'Athlete.position == fantasyForm.position_attr.data,'
+        if str(fantasyForm.weight_attr.data) != 'None' and str(fantasyForm.weight_attr.data) != '0':
             athlete_weight = json.loads(fantasyForm.weight_attr.data.replace('\'','\"'))
             # SELECT * FROM athlete WHERE athlete.university_id = ? AND athlete.country_of_origin = ? AND athlete.weight >= ? AND athlete.weight <= ?
-            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max']).all()
-        elif str(fantasyForm.country_attr.data) != 'None' and str(fantasyForm.country_attr.data) != '0':
+            # athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data, Athlete.weight >= athlete_weight['min'], Athlete.weight <= athlete_weight['max']).all()
+            query = query + ' Athlete.weight >= "{}" AND Athlete.weight <= "{}" AND'.format(athlete_weight['min'], athlete_weight['max'])
+        if str(fantasyForm.country_attr.data) != 'None' and str(fantasyForm.country_attr.data) != '0':
             # SELECT * FROM athlete WHERE athlete.university_id = ? AND athlete.country_of_origin = ?
-            athletes = db.session.query(Athlete).filter(Athlete.university_id==(University.query.get(fantasyForm.university_attr.data)).id, Athlete.country_of_origin==fantasyForm.country_attr.data).all()
-
+            query = query + ' Athlete.country_of_origin=="{}" AND Athlete.university_id=="{}" AND'.format(fantasyForm.country_attr.data, fantasyForm.university_attr.data)
+        # Submit query
+        print(query, query[len(query)-4:len(query)])
+        print(query[0:len(query)-4])
+        if query[len(query)-4:len(query)] =='AND':
+            query = query[0:len(query)-4]
+        print(query)
+        formatted_query = '{query}'.format(query=query)
+        athletes = db.session.query(Athlete).filter(formatted_query).all()
 
 
     

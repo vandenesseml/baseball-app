@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block app_content %}
+{% extends "base.html" %}{% block app_content %}
 <table class="table body">
     <tr class=headDisplay>
         <td class=headerImageCell>
@@ -39,5 +39,118 @@
             {% endif %}
         </td>
     </tr>
+</table>
+<br>
+{% if stats.batting_average %}
+<table>
+    <tr style=background:#ddd>
+        <td>
+            <h5>Stats</h5>
+        </td>
+        <td style=width:10%>
+            <h5>GP</h5>
+        </td>
+        <td style=width:10%>
+            <h5>IP</h5>
+        </td>
+        <td style=width:10%>
+            <h5>AB</h5>
+        </td>
+        <td style=width:10%>
+            <h5>H </h5>
+        </td>
+        <td style=width:10%>
+            <h5>W </h5>
+        </td>
+        <td style=width:10%>
+            <h5>RS</h5>
+        </td>
+        <td style=width:10%>
+            <h5>RBI</h5>
+        </td>
+        <td style=width:10%>
+            <h5>HR</h5>
+        </td>
+        <td style=width:10%>
+            <h5>BA</h5>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h5>Career</h5>
+        </td>
+        <td>
+            <h5>{{stats.games_played}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.innings_played}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.at_bats}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.hits}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.walks}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.runs_scored}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.runs_batted_in}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.home_runs}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.batting_average}}</h5>
+        </td>
+    </tr>
+
+</table>
+{% else %}
+<table>
+    <tr style=background:#ddd>
+        <td>
+            <h5>Stats</h5>
+        </td>
+        <td style=width:15%>
+            <h5>A</h5>
+        </td>
+        <td style=width:15%>
+            <h5>IT</h5>
+        </td>
+        <td style=width:15%>
+            <h5>RA</h5>
+        </td>
+        <td style=width:15%>
+            <h5>ERA </h5>
+        </td>
+        <td style=width:15%>
+            <h5>SO</h5>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h5>Career</h5>
+        </td>
+        <td>
+            <h5>{{stats.appearances}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.innings_thrown}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.runs_allowed}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.earned_run_average}}</h5>
+        </td>
+        <td>
+            <h5>{{stats.strikeouts}}</h5>
+        </td>
+    </tr>
+    {% endif %}
 </table>
 {% endblock %}
