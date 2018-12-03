@@ -153,6 +153,14 @@ def conferences():
     return render_template(
         'conferences.html', conferences=conferences, title='Conferences')
 
+def buildStatsQuery(athlete_ids):
+    q='('
+    for index in range(0,len(athlete_ids)):
+        if index == len(athlete_ids) -1:
+            q = q + ' Athlete.id==' + str(athlete_ids[index][0]) + ')'
+        else:
+            q = q + ' Athlete.id==' + str(athlete_ids[index][0]) + ' OR'
+    return q
 
 @app.route('/fantasy', methods=['GET', 'POST'])
 @login_required
@@ -219,28 +227,102 @@ def FantasyTeam():
             appearances = json.loads(fantasyForm.appearances.data.replace('\'','"'))
             athlete_ids = db.session.query(PitcherCareerStats.athlete_id,PitcherCareerStats.appearances).filter(PitcherCareerStats.appearances >= appearances['min'], PitcherCareerStats.appearances <= appearances['max']).all() 
             if athlete_ids:
-                q='('
-                for index in range(0,len(athlete_ids)):
-                    if index == len(athlete_ids) -1:
-                        q = q + ' Athlete.id==' + str(athlete_ids[index][0]) + ')'
-                    else:
-                        q = q + ' Athlete.id==' + str(athlete_ids[index][0]) + ' OR'
-                query.append(q)
+                query.append(buildStatsQuery(athlete_ids))
             else:
                 query.append('Athlete.id==199999999999933333333333')
         if str(fantasyForm.innings_thrown.data) != 'None' and str(fantasyForm.innings_thrown.data) != '0':
             innings_thrown = json.loads(fantasyForm.innings_thrown.data.replace('\'','"'))
             athlete_ids = db.session.query(PitcherCareerStats.athlete_id,PitcherCareerStats.innings_thrown).filter(PitcherCareerStats.innings_thrown >= innings_thrown['min'], PitcherCareerStats.innings_thrown <= innings_thrown['max']).all() 
             if athlete_ids:
-                q='('
-                for index in range(0,len(athlete_ids)):
-                    if index == len(athlete_ids) -1:
-                        q = q + ' Athlete.id==' + str(athlete_ids[index][0]) + ')'
-                    else:
-                        q = q + ' Athlete.id==' + str(athlete_ids[index][0]) + ' OR'
-                query.append(q)
+                query.append(buildStatsQuery(athlete_ids))
             else:
                 query.append('Athlete.id==199999999999933333333333')
+        if str(fantasyForm.runs_allowed.data) != 'None' and str(fantasyForm.runs_allowed.data) != '0':
+            runs_allowed = json.loads(fantasyForm.runs_allowed.data.replace('\'','"'))
+            athlete_ids = db.session.query(PitcherCareerStats.athlete_id,PitcherCareerStats.runs_allowed).filter(PitcherCareerStats.runs_allowed >= runs_allowed['min'], PitcherCareerStats.runs_allowed <= runs_allowed['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')
+        if str(fantasyForm.earned_run_average.data) != 'None' and str(fantasyForm.earned_run_average.data) != '0':
+            earned_run_average = json.loads(fantasyForm.earned_run_average.data.replace('\'','"'))
+            athlete_ids = db.session.query(PitcherCareerStats.athlete_id,PitcherCareerStats.earned_run_average).filter(PitcherCareerStats.earned_run_average >= earned_run_average['min'], PitcherCareerStats.earned_run_average <= earned_run_average['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')
+        if str(fantasyForm.strikeouts.data) != 'None' and str(fantasyForm.strikeouts.data) != '0':
+            strikeouts = json.loads(fantasyForm.strikeouts.data.replace('\'','"'))
+            athlete_ids = db.session.query(PitcherCareerStats.athlete_id,PitcherCareerStats.strikeouts).filter(PitcherCareerStats.strikeouts >= strikeouts['min'], PitcherCareerStats.strikeouts <= strikeouts['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')
+        if str(fantasyForm.games_played.data) != 'None' and str(fantasyForm.games_played.data) != '0':
+            games_played = json.loads(fantasyForm.games_played.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.games_played).filter(PositionPlayerCareerStats.games_played >= games_played['min'], PositionPlayerCareerStats.games_played <= games_played['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')
+        if str(fantasyForm.innings_played.data) != 'None' and str(fantasyForm.innings_played.data) != '0':
+            innings_played = json.loads(fantasyForm.innings_played.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.innings_played).filter(PositionPlayerCareerStats.innings_played >= innings_played['min'], PositionPlayerCareerStats.innings_played <= innings_played['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')
+        if str(fantasyForm.at_bats.data) != 'None' and str(fantasyForm.at_bats.data) != '0':
+            at_bats = json.loads(fantasyForm.at_bats.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.at_bats).filter(PositionPlayerCareerStats.at_bats >= at_bats['min'], PositionPlayerCareerStats.at_bats <= at_bats['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')
+        
+        if str(fantasyForm.hits.data) != 'None' and str(fantasyForm.hits.data) != '0':
+            hits = json.loads(fantasyForm.hits.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.hits).filter(PositionPlayerCareerStats.hits >= hits['min'], PositionPlayerCareerStats.hits <= hits['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')  
+        if str(fantasyForm.walks.data) != 'None' and str(fantasyForm.walks.data) != '0':
+            walks = json.loads(fantasyForm.walks.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.walks).filter(PositionPlayerCareerStats.walks >= walks['min'], PositionPlayerCareerStats.walks <= walks['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')   
+        if str(fantasyForm.runs_scored.data) != 'None' and str(fantasyForm.runs_scored.data) != '0':
+            runs_scored = json.loads(fantasyForm.runs_scored.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.runs_scored).filter(PositionPlayerCareerStats.runs_scored >= runs_scored['min'], PositionPlayerCareerStats.runs_scored <= runs_scored['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')  
+        if str(fantasyForm.runs_batted_in.data) != 'None' and str(fantasyForm.runs_batted_in.data) != '0':
+            runs_batted_in = json.loads(fantasyForm.runs_batted_in.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.runs_batted_in).filter(PositionPlayerCareerStats.runs_batted_in >= runs_batted_in['min'], PositionPlayerCareerStats.runs_batted_in <= runs_batted_in['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333') 
+        if str(fantasyForm.home_runs.data) != 'None' and str(fantasyForm.home_runs.data) != '0':
+            home_runs = json.loads(fantasyForm.home_runs.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.home_runs).filter(PositionPlayerCareerStats.home_runs >= home_runs['min'], PositionPlayerCareerStats.home_runs <= home_runs['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')  
+        if str(fantasyForm.batting_average.data) != 'None' and str(fantasyForm.batting_average.data) != '0':
+            batting_average = json.loads(fantasyForm.batting_average.data.replace('\'','"'))
+            athlete_ids = db.session.query(PositionPlayerCareerStats.athlete_id,PositionPlayerCareerStats.batting_average).filter(PositionPlayerCareerStats.batting_average >= batting_average['min'], PositionPlayerCareerStats.batting_average <= batting_average['max']).all() 
+            if athlete_ids:
+                query.append(buildStatsQuery(athlete_ids))
+            else:
+                query.append('Athlete.id==199999999999933333333333')  
+
         # Submit query
         
         athletes = db.session.query(Athlete).filter(*query).all()
