@@ -61,36 +61,24 @@
                 <h3>Select Player Attributes</h3>
                 {{ fantasyForm.conference_attr.label}}
                 {{ fantasyForm.conference_attr(**{"onchange":"this.form.submit()"} )}}
-                {% if fantasyForm.conference_attr.data %}
                 <br>
                 {{ fantasyForm.university_attr.label}}
-                {{ fantasyForm.university_attr(**{"onchange":"this.form.submit()"}) }}
-                {% endif %}
-                {% if fantasyForm.university_attr.data and fantasyForm.university_attr.data != '0' %}
+                {{ fantasyForm.university_attr()}}
                 <br>
                 {{ fantasyForm.country_attr.label}}
-                {{ fantasyForm.country_attr(**{"onchange":"this.form.submit()"}) }}
-                {% endif %}
-                {% if fantasyForm.country_attr.data != 'None' %}
+                {{ fantasyForm.country_attr()}}
                 <br>
                 {{ fantasyForm.weight_attr.label}}
                 {{ fantasyForm.weight_attr(**{"onchange":"this.form.submit()"}) }}
-                {% endif %}
-                {% if fantasyForm.weight_attr.data != 'None' %}
                 <br>
                 {{ fantasyForm.position_attr.label}}
                 {{ fantasyForm.position_attr(**{"onchange":"this.form.submit()"}) }}
-                {% endif %}
-                {% if fantasyForm.position_attr.data != 'None' %}
                 <br>
                 {{ fantasyForm.bats_attr.label}}
                 {{ fantasyForm.bats_attr(**{"onchange":"this.form.submit()"}) }}
-                {% endif %}
-                {% if fantasyForm.bats_attr.data != 'None' %}
                 <br>
                 {{ fantasyForm.throws_attr.label}}
                 {{ fantasyForm.throws_attr(**{"onchange":"this.form.submit()"}) }}
-                {% endif %}
 
                 <h4>Pitcher Stats</h4>
                 {{ fantasyForm.appearances.label}}
@@ -140,10 +128,7 @@
                 <table>
                     <tr>
                         <td>
-                            {% if fantasyForm.conference_attr.data %}
                             {{ fantasyForm.submit_attr(class_="commentSubmit btn-default btn")}}
-                            {% endif %}
-
                         </td>
 
                     </tr>
